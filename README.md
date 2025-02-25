@@ -1,6 +1,6 @@
 # Notification
 
-SEDASOM 프로젝트의 연장선입니다
+SEDASOM 프로젝트와 연관된 프로젝트입니다.
 
 https://github.com/SEOSUK/-On-going-SEDASOM
 
