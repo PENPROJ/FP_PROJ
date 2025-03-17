@@ -5,7 +5,7 @@ from crazyflie_py import Crazyswarm
 
 
 TAKEOFF_DURATION = 2.5
-HOVER_DURATION = 5.0
+HOVER_DURATION = 30.0
 
 
 def main():

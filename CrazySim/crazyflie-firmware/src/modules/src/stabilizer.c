@@ -119,6 +119,24 @@ static struct {
   int16_t az;
 } setpointCompressed;
 
+
+//SEUK
+// 쿼터니언으로 벡터 회전
+void quaternion_rotate_vector(vector_t* result, const quaternion_t* q, const vector_t* v) {
+  // 쿼터니언 벡터 부분과 스칼라 부분 분리
+  float qx = q->x;
+  float qy = q->y;
+  float qz = q->z;
+  float qw = q->w;
+
+  // 회전 공식 적용
+  result->x = (1 - 2 * (qy * qy + qz * qz)) * v->x + 2 * (qx * qy - qz * qw) * v->y + 2 * (qx * qz + qy * qw) * v->z;
+  result->y = 2 * (qx * qy + qz * qw) * v->x + (1 - 2 * (qx * qx + qz * qz)) * v->y + 2 * (qy * qz - qx * qw) * v->z;
+  result->z = 2 * (qx * qz - qy * qw) * v->x + 2 * (qy * qz + qx * qw) * v->y + (1 - 2 * (qx * qx + qy * qy)) * v->z;
+}
+//SEUK
+
+
 STATIC_MEM_TASK_ALLOC(stabilizerTask, STABILIZER_TASK_STACKSIZE);
 
 static void stabilizerTask(void* param);
@@ -268,6 +286,48 @@ static void controlMotors(const control_t* control) {
   setMotorRatios(&motorPwm);
 }
 
+
+//SEUK
+void commanderGetSetIKSetpoint(void) 
+{
+    // 엔드 이펙터 오프셋 (드론 Body Frame 기준)
+    float end_effector_x = 0.08;
+    float end_effector_y = 0.0;
+    float end_effector_z = 0.0;
+
+
+    // 현재 명령된 엔드 이펙터의 위치와 Yaw
+    float yaw_cmd = setpoint.attitude.yaw;
+    float cos_yaw = cosf(yaw_cmd);
+    float sin_yaw = sinf(yaw_cmd);
+
+
+
+    float rotated_d_x = cos_yaw * end_effector_x - sin_yaw * end_effector_y;
+    float rotated_d_y = sin_yaw * end_effector_x + cos_yaw * end_effector_y;
+    float rotated_d_z = end_effector_z; // Yaw 회전에서는 z축은 변화 없음
+
+    // 드론 위치를 역산하여 설정 (명령된 EE 위치 - 회전된 오프셋)
+    setpoint.position.x -= rotated_d_x;
+    setpoint.position.y -= rotated_d_y;
+    setpoint.position.z -= rotated_d_z;
+
+    // 드론의 자세는 명령으로 받은 Yaw만 설정 (Roll, Pitch는 0으로 가정)
+    setpoint.attitude.roll = 0.0f;
+    setpoint.attitude.pitch = 0.0f;
+    setpoint.attitude.yaw = yaw_cmd;
+
+    // 디버깅 로그 추가
+    DEBUG_PRINT("Setpoint Position: x=%f, y=%f, z=%f | Yaw: %f\n", 
+      setpoint.position.x, setpoint.position.y, setpoint.position.z, yaw_cmd);    
+}
+
+
+
+
+
+
+
 /* The stabilizer loop runs at 1kHz. It is the
  * responsibility of the different functions to run slower by skipping call
  * (ie. returning without modifying the output structure).
@@ -337,6 +397,8 @@ static void stabilizerTask(void* param)
       // Critical for safety, be careful if you modify this code!
       // Let the supervisor modify the setpoint to handle exceptional conditions
       supervisorOverrideSetpoint(&setpoint);
+
+      // commanderGetSetIKSetpoint();
 
       controller(&control, &setpoint, &sensorData, &state, stabilizerStep);
       // DEBUG_PRINT("setpoint | x: %f y: %f z: %f roll: %f pitch %f yaw %f \n", 
