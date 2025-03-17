@@ -20,6 +20,7 @@ public:
 su_fkik() : Node("su_fkik"),
     tf_broadcaster_(std::make_shared<tf2_ros::TransformBroadcaster>(this))
    {
+
       rclcpp::QoS qos_settings = rclcpp::QoS(rclcpp::KeepLast(10))
                                       .reliability(RMW_QOS_POLICY_RELIABILITY_RELIABLE)
                                       .durability(RMW_QOS_POLICY_DURABILITY_VOLATILE);
@@ -46,44 +47,73 @@ su_fkik() : Node("su_fkik"),
     private:
       void visual_timer_callback()
       {
-        cf_velocity_generator();
-        
+        bool simulation_Flag = true;
+
+        cf_EE_vel_FK();
+        cf_EE_position_FK();
+        cf_EE_position_IK();
+        if(simulation_Flag) cf_simulation_cmd_position_publisher();
+        else cf_hardware_cmd_position_publisher();
       }
 
 
-    void cf_pose_subscriber(const geometry_msgs::msg::PoseStamped::SharedPtr msg)
-    {
-      global_xyz_meas[0] = msg->pose.position.x;
-      global_xyz_meas[1] = msg->pose.position.y;
-      global_xyz_meas[2] = msg->pose.position.z;
+      void cf_pose_subscriber(const geometry_msgs::msg::PoseStamped::SharedPtr msg)
+      {
+        global_xyz_meas[0] = msg->pose.position.x;
+        global_xyz_meas[1] = msg->pose.position.y;
+        global_xyz_meas[2] = msg->pose.position.z;
+  
+        tf2::Quaternion quat(
+            msg->pose.orientation.x,
+            msg->pose.orientation.y,
+            msg->pose.orientation.z,
+            msg->pose.orientation.w);
+  
+        tf2::Matrix3x3 mat(quat);
+        mat.getRPY(body_rpy_meas[0], body_rpy_meas[1], body_rpy_meas[2]);
+  
+        for (int i = 0; i < 3; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                R_B(i, j) = mat[i][j];
+            }
+        } // R_B matrix: 회전행렬, body frame에서 global frame으로 변환함
+  
+      }
 
-      // Convert quaternion to roll, pitch, yaw
-      tf2::Quaternion quat(
-          msg->pose.orientation.x,
-          msg->pose.orientation.y,
-          msg->pose.orientation.z,
-          msg->pose.orientation.w);
-
-      tf2::Matrix3x3 mat(quat);
-      mat.getRPY(body_rpy_meas[0], body_rpy_meas[1], body_rpy_meas[2]);
-    }
 
 
     void cf_velocity_subscriber(const crazyflie_interfaces::msg::LogDataGeneric::SharedPtr msg) {
-      RCLCPP_INFO(this->get_logger(), "Received velocity data:");
-      for (const auto& val : msg->values) {
-          RCLCPP_INFO(this->get_logger(), "%f", val);
-      }
+      body_xyz_vel_meas[0] = msg->values[0];
+      body_xyz_vel_meas[1] = msg->values[1];
+      body_xyz_vel_meas[2] = msg->values[2];
+
+      global_xyz_vel_meas = R_B * body_xyz_vel_meas;
     }
 
+    void cf_EE_vel_FK() {
+      //TODO: global_xyz_vel_meas, body_rpy_meas, angular_velocity 를 조합해서 end effector velocity data를 만들기
+  
+    }
 
-    void cf_velocity_generator() {
-    //TODO: global_xyz_meas, body_rpy_meas 를 조합해서 end effector velocity data를 만들기
+    void cf_EE_position_FK() {
+    //TODO: global_xyz_meas, body_rpy_meas 를 조합해서 end effector position data를 만들기
 
     }
 
+    void cf_EE_position_IK() {
+      //TODO: End Effector poisition, End Effector yaw command를 받아서 drone position, drone yaw command로 변환하기.
+  
+    }
     
-    
+    void cf_simulation_cmd_position_publisher() {
+      //TODO: crazyflie 시뮬레이션으로 직접 xyz position, yaw command 데이터를 publish 하는 곳.
+
+    }    
+
+    void cf_hardware_cmd_position_publisher() {
+      //TODO: crazyflie 시뮬레이션으로 직접 xyz position, yaw command 데이터를 publish 하는 곳.
+
+    }        
 
     rclcpp::TimerBase::SharedPtr timer_;
 
@@ -98,6 +128,10 @@ su_fkik() : Node("su_fkik"),
 
     Eigen::Vector3d global_xyz_meas;
     Eigen::Vector3d body_rpy_meas;
+    Eigen::Vector3d global_rpy_meas;
+    Eigen::Vector3d global_xyz_vel_meas;
+    Eigen::Vector3d body_xyz_vel_meas;
+    Eigen::Matrix3d R_B;
 
 
 

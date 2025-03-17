@@ -8,6 +8,9 @@ Panels:
         - /Status1
         - /Axes1
         - /TF1
+        - /TF1/Frames1
+        - /Marker1
+        - /Marker1/Topic1
       Splitter Ratio: 0.5
     Tree Height: 687
   - Class: rviz_common/Selection
@@ -60,11 +63,13 @@ Visualization Manager:
       Enabled: true
       Frame Timeout: 15
       Frames:
-        All Enabled: true
+        All Enabled: false
+        Body_frame:
+          Value: true
         cf_1:
-          Value: true
+          Value: false
         world:
-          Value: true
+          Value: false
       Marker Scale: 1
       Name: TF
       Show Arrows: true
@@ -72,9 +77,24 @@ Visualization Manager:
       Show Names: false
       Tree:
         world:
+          Body_frame:
+            {}
           cf_1:
             {}
       Update Interval: 0
+      Value: true
+    - Class: rviz_default_plugins/Marker
+      Enabled: true
+      Name: Marker
+      Namespaces:
+        body_vel: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /arrow/cf_1/velocity
       Value: true
   Enabled: true
   Global Options:
@@ -122,7 +142,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 5.1640238761901855
+      Distance: 3.0968410968780518
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
