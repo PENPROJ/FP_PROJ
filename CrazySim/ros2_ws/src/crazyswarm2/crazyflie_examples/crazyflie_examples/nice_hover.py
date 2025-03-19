@@ -4,9 +4,9 @@ import time
 
 def main():
     Z = 1.0                          # 비행 고도 (m)
-    MOVE_DISTANCE_X = 0           # X 방향 이동 거리 (m)
-    Y_AMPLITUDE = 1.2               # Y 방향 이동 거리 (m)
-    MOVE_DURATION = 6.              # 각 구간 이동 시간 (초)
+    MOVE_DISTANCE_X = -0.2           # X 방향 이동 거리 (m)
+    Y_AMPLITUDE = 0.5               # Y 방향 이동 거리 (m)
+    MOVE_DURATION = 3.              # 각 구간 이동 시간 (초)
 
     YAW_ANGLE = np.deg2rad(20)       # 15도 yaw 회전 (라디안 단위)
 
@@ -26,7 +26,7 @@ def main():
 
     print("Moving to (0.28, 0.0)...")
     for cf in allcfs.crazyflies:
-        cf.goTo(np.array([MOVE_DISTANCE_X, 0.0, Z]), yaw=YAW_ANGLE, duration=MOVE_DURATION)
+        cf.goTo(np.array([MOVE_DISTANCE_X, 0.0, Z]), yaw= - YAW_ANGLE, duration=MOVE_DURATION)
     timeHelper.sleep(MOVE_DURATION + 0.5)
 
     print("Moving to (0.28, 0.2)...")
@@ -36,7 +36,7 @@ def main():
 
     print("Returning to (0.28, 0.0)...")
     for cf in allcfs.crazyflies:
-        cf.goTo(np.array([MOVE_DISTANCE_X, 0.0, Z]), yaw=YAW_ANGLE, duration=MOVE_DURATION)
+        cf.goTo(np.array([MOVE_DISTANCE_X, 0.0, Z]),  yaw= - YAW_ANGLE, duration=MOVE_DURATION)
     timeHelper.sleep(MOVE_DURATION + 0.5)
 
     print("Landing...")

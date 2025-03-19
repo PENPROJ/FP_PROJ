@@ -13,6 +13,7 @@
 #include "visualization_msgs/msg/marker.hpp"
 #include <cmath>
 #include "test_pkg/su_rot.hpp"
+#include <std_msgs/msg/float64_multi_array.hpp>
 
 using namespace std::chrono_literals;
 
@@ -27,8 +28,11 @@ public:
                                       .durability(RMW_QOS_POLICY_DURABILITY_VOLATILE);
 
 
+        //PUBLISHER GROUP
+        cf_vel_arrow_publisher_ = this->create_publisher<visualization_msgs::msg::Marker>(
+          "/rviz/cf_1/velocity", 10);
 
-
+        //SUBSCRIBER GROUP
         cf_pose_subscriber_ = this->create_subscription<geometry_msgs::msg::PoseStamped>(
           "/cf_1/pose", qos_settings,  // Topic name and QoS depth
           std::bind(&su_rviz::cf_pose_subscriber, this, std::placeholders::_1));
@@ -37,12 +41,13 @@ public:
           "/cf_1/velocity", qos_settings,
           std::bind(&su_rviz::cf_velocity_subscriber, this, std::placeholders::_1));
   
-        cf_vel_arrow_publisher_ = this->create_publisher<visualization_msgs::msg::Marker>(
-          "/arrow/cf_1/velocity", 10);    
-        
+        global_EE_xyz_subscriber_ = this->create_subscription<std_msgs::msg::Float64MultiArray>(
+          "/global_EE_xyz", qos_settings,
+          std::bind(&su_rviz::global_EE_xyz_callback, this, std::placeholders::_1));
 
-          timer_ = this->create_wall_timer(
-            10ms, std::bind(&su_rviz::visual_timer_callback, this));
+
+        timer_ = this->create_wall_timer(
+          10ms, std::bind(&su_rviz::visual_timer_callback, this));
 
       }
 
@@ -83,6 +88,7 @@ public:
     }
 
     void cf_velocity_subscriber(const crazyflie_interfaces::msg::LogDataGeneric::SharedPtr msg) {
+
       body_xyz_vel_meas[0] = msg->values[0];
       body_xyz_vel_meas[1] = msg->values[1];
       body_xyz_vel_meas[2] = msg->values[2];
@@ -90,6 +96,14 @@ public:
       global_xyz_vel_meas = R_B * body_xyz_vel_meas;
     }
 
+    void global_EE_xyz_callback(const std_msgs::msg::Float64MultiArray::SharedPtr msg){
+
+      global_EE_xyz_meas[0] = msg->data[0];
+      global_EE_xyz_meas[1] = msg->data[1];
+      global_EE_xyz_meas[2] = msg->data[2];
+
+
+    }
 
     void cf_pose_visual_publisher() {
 
@@ -114,8 +128,6 @@ public:
     }
 
     void cf_vel_visual_publisher(){
-      //TODO: 시작지점: global_xyz_meas[0, 1, 2]
-      //TODO: 크기가 global_xyz_vel_meas[0, 1, 2]
       
     auto marker = visualization_msgs::msg::Marker();
     marker.header.frame_id = "world";
@@ -159,11 +171,26 @@ public:
 
     void cf_EE_position_FK_publisher()
     {
-      //TODO: su_fkik에서 연산한 position FK 데이터를 rviz에 시각화
-      
-      
-    }
-    
+        geometry_msgs::msg::TransformStamped transform_msg;
+        transform_msg.header.stamp = this->get_clock()->now();
+        transform_msg.header.frame_id = "world";  // 부모 프레임
+        transform_msg.child_frame_id = "EE_frame"; // 자식 프레임 (EE)
+
+        transform_msg.transform.translation.x = global_EE_xyz_meas[0];
+        transform_msg.transform.translation.y = global_EE_xyz_meas[1];
+        transform_msg.transform.translation.z = global_EE_xyz_meas[2];
+
+        tf2::Quaternion quat;
+        quat.setRPY(body_rpy_meas[0], body_rpy_meas[1], body_rpy_meas[2]);
+
+        transform_msg.transform.rotation.x = quat.x();
+        transform_msg.transform.rotation.y = quat.y();
+        transform_msg.transform.rotation.z = quat.z();
+        transform_msg.transform.rotation.w = quat.w();
+
+        // TF Broadcast
+        tf_broadcaster_->sendTransform(transform_msg);
+    }    
 
     rclcpp::TimerBase::SharedPtr timer_;
 
@@ -172,6 +199,7 @@ public:
 
     rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr cf_pose_subscriber_;
     rclcpp::Subscription<crazyflie_interfaces::msg::LogDataGeneric>::SharedPtr cf_vel_subscriber_;
+    rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr global_EE_xyz_subscriber_;
 
 
     std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
@@ -184,6 +212,7 @@ public:
     Eigen::Vector3d body_xyz_vel_meas;
     Eigen::Matrix3d R_B;
 
+    Eigen::Vector3d global_EE_xyz_meas;
 
 };
 

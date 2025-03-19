@@ -47,7 +47,7 @@ install(TARGETS
 target_link_libraries(su_rviz)
 
 #SU_FKIK
-add_executable(su_fkik src/su_fkik.cpp)
+add_executable(su_fkik src/su_fkik.cpp src/ButterworthFilter.cpp)
 ament_target_dependencies(su_fkik
  rclcpp 
  std_msgs 
@@ -64,17 +64,28 @@ install(TARGETS
   DESTINATION lib/${PROJECT_NAME})
 
 
- target_include_directories(su_rviz PUBLIC
+ target_include_directories(su_fkik PUBLIC
  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
  $<INSTALL_INTERFACE:include>
  ${EIGEN3_INCLUDE_DIR}  # Add Eigen include directory 
 )
 
-target_link_libraries(su_rviz)
+target_link_libraries(su_fkik ButterworthFilter)
 
+#butterworth filter
+add_library(ButterworthFilter src/ButterworthFilter.cpp)
+target_include_directories(ButterworthFilter PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+  ${EIGEN3_INCLUDE_DIR}
+)
 
+###
 
-
+install(DIRECTORY
+  launch
+  DESTINATION share/${PROJECT_NAME}/
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
