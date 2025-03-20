@@ -29,15 +29,27 @@ def main():
         cf.goTo(np.array([MOVE_DISTANCE_X, 0.0, Z]), yaw= - YAW_ANGLE, duration=MOVE_DURATION)
     timeHelper.sleep(MOVE_DURATION + 0.5)
 
-    print("Moving to (0.28, 0.2)...")
+    print("Returning to (0.28, 0.0)...")
     for cf in allcfs.crazyflies:
-        cf.goTo(np.array([MOVE_DISTANCE_X, Y_AMPLITUDE, Z]), yaw=YAW_ANGLE, duration=MOVE_DURATION)
+        cf.goTo(np.array([MOVE_DISTANCE_X, 0.0, Z]),  yaw= - 3.1, duration=MOVE_DURATION)
     timeHelper.sleep(MOVE_DURATION + 0.5)
 
     print("Returning to (0.28, 0.0)...")
     for cf in allcfs.crazyflies:
-        cf.goTo(np.array([MOVE_DISTANCE_X, 0.0, Z]),  yaw= - YAW_ANGLE, duration=MOVE_DURATION)
+        cf.goTo(np.array([MOVE_DISTANCE_X, 0.0, Z]),  yaw= 0, duration=MOVE_DURATION)
     timeHelper.sleep(MOVE_DURATION + 0.5)
+
+
+    print("Returning to (0.28, 0.0)...")
+    for cf in allcfs.crazyflies:
+        cf.goTo(np.array([MOVE_DISTANCE_X, 0.0, Z]),  yaw= - 3.1, duration=MOVE_DURATION)
+    timeHelper.sleep(MOVE_DURATION + 0.5)
+
+    print("Returning to (0.28, 0.0)...")
+    for cf in allcfs.crazyflies:
+        cf.goTo(np.array([MOVE_DISTANCE_X, 0.0, Z]),  yaw= 0, duration=MOVE_DURATION)
+    timeHelper.sleep(MOVE_DURATION + 0.5)    
+
 
     print("Landing...")
     allcfs.land(targetHeight=0.02, duration=1.0 + Z)
