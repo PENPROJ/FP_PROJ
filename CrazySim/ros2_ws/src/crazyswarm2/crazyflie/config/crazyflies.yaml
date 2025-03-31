@@ -11,7 +11,7 @@ robots:
   #   #   kalman:
   #   #     pNAcc_xy: 1.0 # default 0.5
 
-  cf_1:
+  cf2:
     enabled: true
     uri: udp://0.0.0.0:19850
     initial_position: [0.0, 0.0, 0.0]

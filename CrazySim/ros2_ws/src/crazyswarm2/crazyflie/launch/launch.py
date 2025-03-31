@@ -116,6 +116,12 @@ def generate_launch_description():
             emulate_tty=True,
             parameters=server_params
         ),
+        # goto sub 노드 실행
+        Node(
+            package='crazyflie_examples',
+            executable='goto_subscriber',
+            output='screen',
+        ),                
 #        Node(
 #            package='rviz2',
 #            namespace='',
