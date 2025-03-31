@@ -123,9 +123,19 @@
     </collision>
 </link>
 
-    <joint name="joint_EE" type="fixed">
+    <joint name="joint_EE" type="revolute">
         <parent>link_bar</parent>
         <child>link_EE</child>
+        <!-- ForceTorque 센서 추가 -->
+        <sensor name="ft_sensor" type="force_torque">
+            <always_on>1</always_on>
+            <update_rate>200</update_rate>
+            <topic>/EE_forcetorque</topic>
+            <force_torque>
+                <frame>child</frame>
+                <measure_direction>child_to_parent</measure_direction>
+            </force_torque>
+        </sensor>        
     </joint>
 <!-- EE_SEUK -->
 
