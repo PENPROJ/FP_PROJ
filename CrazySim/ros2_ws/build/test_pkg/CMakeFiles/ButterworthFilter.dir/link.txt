@@ -1,0 +1,2 @@
+/usr/bin/ar qc libButterworthFilter.a CMakeFiles/ButterworthFilter.dir/src/ButterworthFilter.cpp.o
+/usr/bin/ranlib libButterworthFilter.a

@@ -1,0 +1,139 @@
+[0.298s] Invoking command in '/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/crazyflie': CMAKE_PREFIX_PATH=/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking_interfaces:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_interfaces:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_sim:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_examples:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_mpc:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_py:/opt/ros/humble /usr/bin/cmake /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/src/crazyswarm2/crazyflie -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie
+[0.364s] -- The C compiler identification is GNU 11.4.0
+[0.416s] -- The CXX compiler identification is GNU 11.4.0
+[0.423s] -- Detecting C compiler ABI info
+[0.503s] -- Detecting C compiler ABI info - done
+[0.510s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.510s] -- Detecting C compile features
+[0.510s] -- Detecting C compile features - done
+[0.513s] -- Detecting CXX compiler ABI info
+[0.594s] -- Detecting CXX compiler ABI info - done
+[0.605s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.605s] -- Detecting CXX compile features
+[0.606s] -- Detecting CXX compile features - done
+[0.609s] -- Found ament_cmake: 1.3.11 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.783s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[0.869s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[0.908s] -- Found rclcpp: 16.0.11 (/opt/ros/humble/share/rclcpp/cmake)
+[0.967s] -- Found rosidl_generator_c: 3.1.6 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.975s] -- Found rosidl_adapter: 3.1.6 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.986s] -- Found rosidl_generator_cpp: 3.1.6 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[1.004s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.027s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.089s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[1.093s] -- Found rmw_fastrtps_cpp: 6.2.7 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[1.230s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[1.277s] -- Found FastRTPS: /opt/ros/humble/include  
+[1.341s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[1.352s] -- Looking for pthread.h
+[1.460s] -- Looking for pthread.h - found
+[1.460s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[1.566s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[1.567s] -- Found Threads: TRUE  
+[1.635s] -- Found tf2_ros: 0.25.12 (/opt/ros/humble/share/tf2_ros/cmake)
+[1.740s] -- Found rclpy: 3.3.15 (/opt/ros/humble/share/rclpy/cmake)
+[1.750s] -- Found std_srvs: 4.2.4 (/opt/ros/humble/share/std_srvs/cmake)
+[1.765s] -- Found sensor_msgs: 4.2.4 (/opt/ros/humble/share/sensor_msgs/cmake)
+[1.785s] -- Found crazyflie_interfaces: 2.0.0 (/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_interfaces/share/crazyflie_interfaces/cmake)
+[1.804s] -- Found motion_capture_tracking_interfaces: 1.0.5 (/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking_interfaces/share/motion_capture_tracking_interfaces/cmake)
+[1.847s] -- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake (found version "1.74.0") found components: program_options 
+[1.854s] -- Found libusb: /usr/lib/x86_64-linux-gnu/libusb-1.0.so  
+[1.942s] -- Configuring done
+[1.992s] -- Generating done
+[2.007s] -- Build files have been written to: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/crazyflie
+[2.033s] Invoked command in '/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/crazyflie' returned '0': CMAKE_PREFIX_PATH=/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking_interfaces:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_interfaces:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_sim:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_examples:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_mpc:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_py:/opt/ros/humble /usr/bin/cmake /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/src/crazyswarm2/crazyflie -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie
+[2.035s] Invoking command in '/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/crazyflie': CMAKE_PREFIX_PATH=/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking_interfaces:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_interfaces:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_sim:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_examples:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_mpc:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_py:/opt/ros/humble /usr/bin/cmake --build /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/crazyflie -- -j16 -l16
+[2.105s] [ 11%] [32mBuilding CXX object deps/crazyflie_tools/crazyflie_cpp/crazyflie-link-cpp/CMakeFiles/crazyflieLinkCpp.dir/src/USBDevice.cpp.o[0m
+[2.105s] [ 11%] [32mBuilding CXX object deps/crazyflie_tools/crazyflie_cpp/crazyflie-link-cpp/CMakeFiles/crazyflieLinkCpp.dir/src/Connection.cpp.o[0m
+[2.106s] [ 11%] [32mBuilding CXX object CMakeFiles/teleop.dir/src/teleop.cpp.o[0m
+[2.106s] [ 11%] [32mBuilding CXX object deps/crazyflie_tools/crazyflie_cpp/crazyflie-link-cpp/CMakeFiles/crazyflieLinkCpp.dir/src/CrazyflieUSB.cpp.o[0m
+[2.106s] [ 16%] [32mBuilding CXX object deps/crazyflie_tools/crazyflie_cpp/crazyflie-link-cpp/CMakeFiles/crazyflieLinkCpp.dir/src/USBManager.cpp.o[0m
+[2.106s] [ 16%] [32mBuilding CXX object deps/crazyflie_tools/crazyflie_cpp/crazyflie-link-cpp/CMakeFiles/crazyflieLinkCpp.dir/src/Crazyradio.cpp.o[0m
+[2.111s] [ 19%] [32mBuilding CXX object deps/crazyflie_tools/crazyflie_cpp/crazyflie-link-cpp/CMakeFiles/crazyflieLinkCpp.dir/src/CrazyradioThread.cpp.o[0m
+[2.111s] [ 22%] [32mBuilding CXX object deps/crazyflie_tools/crazyflie_cpp/crazyflie-link-cpp/CMakeFiles/crazyflieLinkCpp.dir/src/CrazyflieUSBThread.cpp.o[0m
+[2.117s] [ 25%] [32mBuilding CXX object deps/crazyflie_tools/crazyflie_cpp/crazyflie-link-cpp/CMakeFiles/crazyflieLinkCpp.dir/src/Version.cpp.o[0m
+[5.226s] [ 27%] [32m[1mLinking CXX static library libcrazyflieLinkCpp.a[0m
+[5.315s] [ 27%] Built target crazyflieLinkCpp
+[5.341s] [ 30%] [32mBuilding CXX object deps/crazyflie_tools/crazyflie_cpp/CMakeFiles/crazyflie_cpp.dir/src/Crazyflie.cpp.o[0m
+[5.342s] [ 33%] [32mBuilding CXX object deps/crazyflie_tools/crazyflie_cpp/CMakeFiles/crazyflie_cpp.dir/src/crtp.cpp.o[0m
+[7.812s] [ 36%] [32m[1mLinking CXX static library libcrazyflie_cpp.a[0m
+[7.907s] [ 36%] Built target crazyflie_cpp
+[7.960s] [ 38%] [32mBuilding CXX object deps/crazyflie_tools/CMakeFiles/scan.dir/src/scan.cpp.o[0m
+[7.960s] [ 41%] [32mBuilding CXX object deps/crazyflie_tools/CMakeFiles/listParams.dir/src/listParams.cpp.o[0m
+[7.966s] [ 44%] [32mBuilding CXX object CMakeFiles/crazyflie_server.dir/src/crazyflie_server.cpp.o[0m
+[7.972s] [ 47%] [32mBuilding CXX object deps/crazyflie_tools/CMakeFiles/battery.dir/src/battery.cpp.o[0m
+[7.977s] [ 50%] [32mBuilding CXX object deps/crazyflie_tools/CMakeFiles/reboot.dir/src/reboot.cpp.o[0m
+[7.978s] [ 55%] [32mBuilding CXX object deps/crazyflie_tools/CMakeFiles/listMemories.dir/src/listMemories.cpp.o[0m
+[7.979s] [ 58%] [32mBuilding CXX object deps/crazyflie_tools/CMakeFiles/version.dir/src/version.cpp.o[0m
+[7.979s] [ 52%] [32mBuilding CXX object deps/crazyflie_tools/CMakeFiles/listLogVariables.dir/src/listLogVariables.cpp.o[0m
+[7.980s] [ 61%] [32mBuilding CXX object deps/crazyflie_tools/CMakeFiles/console.dir/src/console.cpp.o[0m
+[7.998s] [ 63%] [32mBuilding CXX object deps/crazyflie_tools/CMakeFiles/log.dir/src/log.cpp.o[0m
+[8.005s] [ 66%] [32mBuilding CXX object deps/crazyflie_tools/CMakeFiles/setParam.dir/src/setParam.cpp.o[0m
+[10.495s] [ 69%] [32m[1mLinking CXX executable scan[0m
+[10.576s] [ 72%] [32m[1mLinking CXX executable version[0m
+[10.606s] [ 75%] [32m[1mLinking CXX executable listMemories[0m
+[10.772s] [ 77%] [32m[1mLinking CXX executable console[0m
+[10.777s] [ 80%] [32m[1mLinking CXX executable reboot[0m
+[10.991s] [ 83%] [32m[1mLinking CXX executable listParams[0m
+[11.053s] [ 83%] Built target scan
+[11.053s] [ 83%] Built target listMemories
+[11.054s] [ 86%] [32m[1mLinking CXX executable listLogVariables[0m
+[11.064s] [ 86%] Built target version
+[11.133s] [ 88%] [32m[1mLinking CXX executable log[0m
+[11.213s] [ 91%] [32m[1mLinking CXX executable battery[0m
+[11.297s] [ 91%] Built target console
+[11.317s] [ 91%] Built target reboot
+[11.408s] [ 94%] [32m[1mLinking CXX executable setParam[0m
+[11.443s] [ 94%] Built target listLogVariables
+[11.457s] [ 94%] Built target listParams
+[11.496s] [ 94%] Built target log
+[11.547s] [ 94%] Built target battery
+[11.677s] [ 94%] Built target setParam
+[19.036s] [ 97%] [32m[1mLinking CXX executable teleop[0m
+[19.635s] [ 97%] Built target teleop
+[33.234s] [100%] [32m[1mLinking CXX executable crazyflie_server[0m
+[34.647s] [100%] Built target crazyflie_server
+[34.659s] Invoked command in '/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/crazyflie' returned '0': CMAKE_PREFIX_PATH=/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking_interfaces:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_interfaces:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_sim:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_examples:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_mpc:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_py:/opt/ros/humble /usr/bin/cmake --build /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/crazyflie -- -j16 -l16
+[34.661s] Invoking command in '/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/crazyflie': CMAKE_PREFIX_PATH=/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking_interfaces:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_interfaces:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_sim:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_examples:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_mpc:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_py:/opt/ros/humble /usr/bin/cmake --install /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/crazyflie
+[34.668s] -- Install configuration: ""
+[34.668s] -- Execute custom install script
+[34.669s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/lib/crazyflie/scan
+[34.676s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/lib/crazyflie/listParams
+[34.685s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/lib/crazyflie/listLogVariables
+[34.696s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/lib/crazyflie/listMemories
+[34.705s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/lib/crazyflie/reboot
+[34.714s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/lib/crazyflie/battery
+[34.723s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/lib/crazyflie/version
+[34.731s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/lib/crazyflie/console
+[34.740s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/lib/crazyflie/log
+[34.747s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/lib/crazyflie/setParam
+[34.755s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/lib/crazyflie/teleop
+[34.764s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/lib/crazyflie/crazyflie_server
+[34.772s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/lib/crazyflie/crazyflie_server.py
+[34.780s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/lib/crazyflie/chooser.py
+[34.788s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/lib/crazyflie/vel_mux.py
+[34.796s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/lib/crazyflie/cfmult.py
+[34.805s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/share/crazyflie//launch/launch.py
+[34.812s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/share/crazyflie//launch/launch_teleop2.py
+[34.820s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/share/crazyflie//launch/teleop_launch.py
+[34.828s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/share/crazyflie//config/config.rviz
+[34.836s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/share/crazyflie//config/crazyflies.yaml
+[34.844s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/share/crazyflie//config/motion_capture.yaml
+[34.852s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/share/crazyflie//config/server.yaml
+[34.860s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/share/crazyflie//config/teleop.yaml
+[34.869s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/share/ament_index/resource_index/package_run_dependencies/crazyflie
+[34.878s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/share/ament_index/resource_index/parent_prefix_path/crazyflie
+[34.885s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/share/crazyflie/environment/ament_prefix_path.sh
+[34.895s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/share/crazyflie/environment/ament_prefix_path.dsv
+[34.903s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/share/crazyflie/environment/path.sh
+[34.911s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/share/crazyflie/environment/path.dsv
+[34.918s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/share/crazyflie/local_setup.bash
+[34.927s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/share/crazyflie/local_setup.sh
+[34.936s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/share/crazyflie/local_setup.zsh
+[34.946s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/share/crazyflie/local_setup.dsv
+[34.955s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/share/crazyflie/package.dsv
+[34.963s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/share/ament_index/resource_index/packages/crazyflie
+[34.972s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/share/crazyflie/cmake/crazyflieConfig.cmake
+[34.978s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/share/crazyflie/cmake/crazyflieConfig-version.cmake
+[34.986s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie/share/crazyflie/package.xml
+[34.998s] Invoked command in '/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/crazyflie' returned '0': CMAKE_PREFIX_PATH=/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking_interfaces:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_interfaces:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_sim:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_examples:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_mpc:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_py:/opt/ros/humble /usr/bin/cmake --install /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/crazyflie

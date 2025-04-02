@@ -1,0 +1,21 @@
+PyQt6-sip~=13.5
+PyYAML~=6.0.1
+appdirs~=1.4.0
+cflib>=0.1.24
+numpy<1.25,>=1.20
+pyqt6~=6.5
+pyqtgraph~=0.13
+pyserial~=3.5
+pyzmq~=25.0
+vispy~=0.13.0
+
+[:platform_system == "Windows" or platform_system == "Darwin"]
+pysdl2-dll==2.24.0
+pysdl2~=0.9.14
+
+[dev]
+pre-commit
+
+[dev:platform_system == "Windows"]
+cx_freeze==5.1.1
+jinja2==2.10.3

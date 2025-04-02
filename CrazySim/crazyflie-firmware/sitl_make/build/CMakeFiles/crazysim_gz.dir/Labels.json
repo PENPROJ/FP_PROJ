@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/mrl-seuk/sitl_crazy/CrazySim/crazyflie-firmware/sitl_make/build/CMakeFiles/crazysim_gz"
+		},
+		{
+			"file" : "/home/mrl-seuk/sitl_crazy/CrazySim/crazyflie-firmware/sitl_make/build/CMakeFiles/crazysim_gz.rule"
+		},
+		{
+			"file" : "/home/mrl-seuk/sitl_crazy/CrazySim/crazyflie-firmware/sitl_make/build/CMakeFiles/crazysim_gz-complete.rule"
+		},
+		{
+			"file" : "/home/mrl-seuk/sitl_crazy/CrazySim/crazyflie-firmware/sitl_make/build/crazysim_gz-prefix/src/crazysim_gz-stamp/crazysim_gz-build.rule"
+		},
+		{
+			"file" : "/home/mrl-seuk/sitl_crazy/CrazySim/crazyflie-firmware/sitl_make/build/crazysim_gz-prefix/src/crazysim_gz-stamp/crazysim_gz-configure.rule"
+		},
+		{
+			"file" : "/home/mrl-seuk/sitl_crazy/CrazySim/crazyflie-firmware/sitl_make/build/crazysim_gz-prefix/src/crazysim_gz-stamp/crazysim_gz-download.rule"
+		},
+		{
+			"file" : "/home/mrl-seuk/sitl_crazy/CrazySim/crazyflie-firmware/sitl_make/build/crazysim_gz-prefix/src/crazysim_gz-stamp/crazysim_gz-install.rule"
+		},
+		{
+			"file" : "/home/mrl-seuk/sitl_crazy/CrazySim/crazyflie-firmware/sitl_make/build/crazysim_gz-prefix/src/crazysim_gz-stamp/crazysim_gz-mkdir.rule"
+		},
+		{
+			"file" : "/home/mrl-seuk/sitl_crazy/CrazySim/crazyflie-firmware/sitl_make/build/crazysim_gz-prefix/src/crazysim_gz-stamp/crazysim_gz-patch.rule"
+		},
+		{
+			"file" : "/home/mrl-seuk/sitl_crazy/CrazySim/crazyflie-firmware/sitl_make/build/crazysim_gz-prefix/src/crazysim_gz-stamp/crazysim_gz-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"crazysim_gz"
+		],
+		"name" : "crazysim_gz"
+	}
+}
