@@ -185,58 +185,6 @@ libmotioncapture/fast:
 	cd /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/motion_capture_tracking && $(MAKE) $(MAKESILENT) -f deps/libmotioncapture/CMakeFiles/libmotioncapture.dir/build.make deps/libmotioncapture/CMakeFiles/libmotioncapture.dir/build
 .PHONY : libmotioncapture/fast
 
-# Convenience name for target.
-deps/libmotioncapture/CMakeFiles/motioncapture.dir/rule:
-	cd /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/motion_capture_tracking && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 deps/libmotioncapture/CMakeFiles/motioncapture.dir/rule
-.PHONY : deps/libmotioncapture/CMakeFiles/motioncapture.dir/rule
-
-# Convenience name for target.
-motioncapture: deps/libmotioncapture/CMakeFiles/motioncapture.dir/rule
-.PHONY : motioncapture
-
-# fast build rule for target.
-motioncapture/fast:
-	cd /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/motion_capture_tracking && $(MAKE) $(MAKESILENT) -f deps/libmotioncapture/CMakeFiles/motioncapture.dir/build.make deps/libmotioncapture/CMakeFiles/motioncapture.dir/build
-.PHONY : motioncapture/fast
-
-# Convenience name for target.
-deps/libmotioncapture/CMakeFiles/motioncapture_example.dir/rule:
-	cd /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/motion_capture_tracking && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 deps/libmotioncapture/CMakeFiles/motioncapture_example.dir/rule
-.PHONY : deps/libmotioncapture/CMakeFiles/motioncapture_example.dir/rule
-
-# Convenience name for target.
-motioncapture_example: deps/libmotioncapture/CMakeFiles/motioncapture_example.dir/rule
-.PHONY : motioncapture_example
-
-# fast build rule for target.
-motioncapture_example/fast:
-	cd /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/motion_capture_tracking && $(MAKE) $(MAKESILENT) -f deps/libmotioncapture/CMakeFiles/motioncapture_example.dir/build.make deps/libmotioncapture/CMakeFiles/motioncapture_example.dir/build
-.PHONY : motioncapture_example/fast
-
-examples/main.o: examples/main.cpp.o
-.PHONY : examples/main.o
-
-# target to build an object file
-examples/main.cpp.o:
-	cd /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/motion_capture_tracking && $(MAKE) $(MAKESILENT) -f deps/libmotioncapture/CMakeFiles/motioncapture_example.dir/build.make deps/libmotioncapture/CMakeFiles/motioncapture_example.dir/examples/main.cpp.o
-.PHONY : examples/main.cpp.o
-
-examples/main.i: examples/main.cpp.i
-.PHONY : examples/main.i
-
-# target to preprocess a source file
-examples/main.cpp.i:
-	cd /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/motion_capture_tracking && $(MAKE) $(MAKESILENT) -f deps/libmotioncapture/CMakeFiles/motioncapture_example.dir/build.make deps/libmotioncapture/CMakeFiles/motioncapture_example.dir/examples/main.cpp.i
-.PHONY : examples/main.cpp.i
-
-examples/main.s: examples/main.cpp.s
-.PHONY : examples/main.s
-
-# target to generate assembly for a file
-examples/main.cpp.s:
-	cd /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/motion_capture_tracking && $(MAKE) $(MAKESILENT) -f deps/libmotioncapture/CMakeFiles/motioncapture_example.dir/build.make deps/libmotioncapture/CMakeFiles/motioncapture_example.dir/examples/main.cpp.s
-.PHONY : examples/main.cpp.s
-
 src/fzmotion.o: src/fzmotion.cpp.o
 .PHONY : src/fzmotion.o
 
@@ -357,30 +305,6 @@ src/optitrack_closed_source.cpp.s:
 	cd /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/motion_capture_tracking && $(MAKE) $(MAKESILENT) -f deps/libmotioncapture/CMakeFiles/libmotioncapture.dir/build.make deps/libmotioncapture/CMakeFiles/libmotioncapture.dir/src/optitrack_closed_source.cpp.s
 .PHONY : src/optitrack_closed_source.cpp.s
 
-src/python_bindings.o: src/python_bindings.cpp.o
-.PHONY : src/python_bindings.o
-
-# target to build an object file
-src/python_bindings.cpp.o:
-	cd /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/motion_capture_tracking && $(MAKE) $(MAKESILENT) -f deps/libmotioncapture/CMakeFiles/motioncapture.dir/build.make deps/libmotioncapture/CMakeFiles/motioncapture.dir/src/python_bindings.cpp.o
-.PHONY : src/python_bindings.cpp.o
-
-src/python_bindings.i: src/python_bindings.cpp.i
-.PHONY : src/python_bindings.i
-
-# target to preprocess a source file
-src/python_bindings.cpp.i:
-	cd /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/motion_capture_tracking && $(MAKE) $(MAKESILENT) -f deps/libmotioncapture/CMakeFiles/motioncapture.dir/build.make deps/libmotioncapture/CMakeFiles/motioncapture.dir/src/python_bindings.cpp.i
-.PHONY : src/python_bindings.cpp.i
-
-src/python_bindings.s: src/python_bindings.cpp.s
-.PHONY : src/python_bindings.s
-
-# target to generate assembly for a file
-src/python_bindings.cpp.s:
-	cd /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/motion_capture_tracking && $(MAKE) $(MAKESILENT) -f deps/libmotioncapture/CMakeFiles/motioncapture.dir/build.make deps/libmotioncapture/CMakeFiles/motioncapture.dir/src/python_bindings.cpp.s
-.PHONY : src/python_bindings.cpp.s
-
 src/qualisys.o: src/qualisys.cpp.o
 .PHONY : src/qualisys.o
 
@@ -467,11 +391,6 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... libmotioncapture"
-	@echo "... motioncapture"
-	@echo "... motioncapture_example"
-	@echo "... examples/main.o"
-	@echo "... examples/main.i"
-	@echo "... examples/main.s"
 	@echo "... src/fzmotion.o"
 	@echo "... src/fzmotion.i"
 	@echo "... src/fzmotion.s"
@@ -487,9 +406,6 @@ help:
 	@echo "... src/optitrack_closed_source.o"
 	@echo "... src/optitrack_closed_source.i"
 	@echo "... src/optitrack_closed_source.s"
-	@echo "... src/python_bindings.o"
-	@echo "... src/python_bindings.i"
-	@echo "... src/python_bindings.s"
 	@echo "... src/qualisys.o"
 	@echo "... src/qualisys.i"
 	@echo "... src/qualisys.s"

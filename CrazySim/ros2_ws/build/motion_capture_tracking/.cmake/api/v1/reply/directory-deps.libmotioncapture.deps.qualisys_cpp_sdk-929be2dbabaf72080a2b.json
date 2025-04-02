@@ -61,7 +61,7 @@
 				"deps/libmotioncapture/deps/qualisys_cpp_sdk/libqualisys_cpp_sdk.a"
 			],
 			"targetId" : "qualisys_cpp_sdk::@5a99e0bc11ee08158fb6",
-			"targetIndex" : 39,
+			"targetIndex" : 37,
 			"type" : "target"
 		},
 		{

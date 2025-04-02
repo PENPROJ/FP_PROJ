@@ -23,7 +23,7 @@
 					[
 						33,
 						34,
-						43
+						41
 					]
 				},
 				{
@@ -39,8 +39,8 @@
 					"targetIndexes" : 
 					[
 						32,
-						38,
-						42
+						36,
+						40
 					]
 				},
 				{
@@ -50,8 +50,7 @@
 						3,
 						4,
 						5,
-						6,
-						14
+						6
 					],
 					"hasInstallRule" : true,
 					"jsonFile" : "directory-deps.libmotioncapture-ca997100bfddbe0dfb6c.json",
@@ -64,9 +63,7 @@
 					"source" : "deps/libmotioncapture",
 					"targetIndexes" : 
 					[
-						31,
-						35,
-						36
+						31
 					]
 				},
 				{
@@ -97,14 +94,14 @@
 					"source" : "deps/libmotioncapture/deps/NatNetSDKCrossplatform",
 					"targetIndexes" : 
 					[
-						37,
-						41
+						35,
+						39
 					]
 				},
 				{
 					"build" : "deps/libmotioncapture/deps/qualisys_cpp_sdk",
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-deps.libmotioncapture.deps.qualisys_cpp_sdk-9537c9ea9bc710d3b963.json",
+					"jsonFile" : "directory-deps.libmotioncapture.deps.qualisys_cpp_sdk-929be2dbabaf72080a2b.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.5"
@@ -114,7 +111,7 @@
 					"source" : "deps/libmotioncapture/deps/qualisys_cpp_sdk",
 					"targetIndexes" : 
 					[
-						39
+						37
 					]
 				},
 				{
@@ -167,7 +164,7 @@
 						26,
 						27,
 						30,
-						44
+						42
 					]
 				},
 				{
@@ -186,7 +183,7 @@
 					"source" : "deps/libmotioncapture/deps/vrpn/quat",
 					"targetIndexes" : 
 					[
-						40
+						38
 					]
 				},
 				{
@@ -254,17 +251,6 @@
 					"parentIndex" : 6,
 					"projectIndex" : 6,
 					"source" : "deps/libmotioncapture/deps/vrpn/java_vrpn"
-				},
-				{
-					"build" : "deps/libmotioncapture/deps/pybind11",
-					"jsonFile" : "directory-deps.libmotioncapture.deps.pybind11-8e8072287ebb18943ae2.json",
-					"minimumCMakeVersion" : 
-					{
-						"string" : "3.4"
-					},
-					"parentIndex" : 2,
-					"projectIndex" : 8,
-					"source" : "deps/libmotioncapture/deps/pybind11"
 				}
 			],
 			"name" : "",
@@ -285,7 +271,7 @@
 					[
 						33,
 						34,
-						43
+						41
 					]
 				},
 				{
@@ -298,8 +284,8 @@
 					"targetIndexes" : 
 					[
 						32,
-						38,
-						42
+						36,
+						40
 					]
 				},
 				{
@@ -308,8 +294,7 @@
 						3,
 						4,
 						5,
-						6,
-						8
+						6
 					],
 					"directoryIndexes" : 
 					[
@@ -319,9 +304,7 @@
 					"parentIndex" : 0,
 					"targetIndexes" : 
 					[
-						31,
-						35,
-						36
+						31
 					]
 				},
 				{
@@ -346,8 +329,8 @@
 					"parentIndex" : 2,
 					"targetIndexes" : 
 					[
-						37,
-						41
+						35,
+						39
 					]
 				},
 				{
@@ -359,7 +342,7 @@
 					"parentIndex" : 2,
 					"targetIndexes" : 
 					[
-						39
+						37
 					]
 				},
 				{
@@ -409,7 +392,7 @@
 						26,
 						27,
 						30,
-						44
+						42
 					]
 				},
 				{
@@ -422,16 +405,8 @@
 					"parentIndex" : 6,
 					"targetIndexes" : 
 					[
-						40
+						38
 					]
-				},
-				{
-					"directoryIndexes" : 
-					[
-						14
-					],
-					"name" : "pybind11",
-					"parentIndex" : 2
 				}
 			],
 			"targets" : 
@@ -680,20 +655,6 @@
 					"jsonFile" : "target-motion_capture_tracking_uninstall-decf57a75d22c0066654.json",
 					"name" : "motion_capture_tracking_uninstall",
 					"projectIndex" : 0
-				},
-				{
-					"directoryIndex" : 2,
-					"id" : "motioncapture::@09785d0e4e5fbc268e16",
-					"jsonFile" : "target-motioncapture-d2de3e7195e123d21d22.json",
-					"name" : "motioncapture",
-					"projectIndex" : 2
-				},
-				{
-					"directoryIndex" : 2,
-					"id" : "motioncapture_example::@09785d0e4e5fbc268e16",
-					"jsonFile" : "target-motioncapture_example-4a2fe3f0133d15954d62.json",
-					"name" : "motioncapture_example",
-					"projectIndex" : 2
 				},
 				{
 					"directoryIndex" : 4,
