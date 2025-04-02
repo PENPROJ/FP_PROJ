@@ -273,16 +273,16 @@
 	"dependencies" : 
 	[
 		{
-			"backtrace" : 13,
-			"id" : "motion_capture_tracking_interfaces__rosidl_generator_c::@6890427a1f51a3e7e1df"
-		},
-		{
 			"backtrace" : 15,
 			"id" : "motion_capture_tracking_interfaces__rosidl_typesupport_c::@6890427a1f51a3e7e1df"
 		},
 		{
 			"backtrace" : 15,
 			"id" : "motion_capture_tracking_interfaces__py::@333237b8368675d18573"
+		},
+		{
+			"backtrace" : 13,
+			"id" : "motion_capture_tracking_interfaces__rosidl_generator_c::@6890427a1f51a3e7e1df"
 		}
 	],
 	"id" : "motion_capture_tracking_interfaces__rosidl_generator_py::@6890427a1f51a3e7e1df",
