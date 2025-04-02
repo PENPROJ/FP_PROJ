@@ -1,0 +1,64 @@
+[0.246s] Invoking command in '/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/test_pkg': CMAKE_PREFIX_PATH=/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_interfaces:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking_interfaces:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_sim:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_examples:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_mpc:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_py:/opt/ros/humble LD_LIBRARY_PATH=/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_interfaces/lib:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking_interfaces/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib /usr/bin/cmake --build /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/test_pkg -- -j16 -l16
+[0.302s] [ 16%] Built target ButterworthFilter
+[0.307s] [ 33%] Built target keyboard_publisher
+[0.307s] [ 50%] Built target su_rviz
+[0.336s] [ 58%] [32mBuilding CXX object CMakeFiles/su_fkik.dir/src/su_fkik.cpp.o[0m
+[0.336s] [ 83%] Built target trajectory_generator
+[3.266s] [01m[K/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/src/test_pkg/src/su_fkik.cpp:[m[K In member function ‘[01m[Kvoid su_fkik::cf_sim_state_calc()[m[K’:
+[3.266s] [01m[K/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/src/test_pkg/src/su_fkik.cpp:153:16:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Ksin_pitch[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+[3.266s]   153 |         double [01;35m[Ksin_pitch[m[K = sin(body_rpy_meas[1]);
+[3.267s]       |                [01;35m[K^~~~~~~~~[m[K
+[3.267s] [01m[K/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/src/test_pkg/src/su_fkik.cpp:[m[K In member function ‘[01m[Kvoid su_fkik::cf_hardware_state_calc()[m[K’:
+[3.267s] [01m[K/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/src/test_pkg/src/su_fkik.cpp:172:16:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Ksin_pitch[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+[3.267s]   172 |         double [01;35m[Ksin_pitch[m[K = sin(body_rpy_meas[1]);
+[3.267s]       |                [01;35m[K^~~~~~~~~[m[K
+[3.274s] In file included from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/logging.hpp:24[m[K,
+[3.274s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40[m[K,
+[3.274s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24[m[K,
+[3.274s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20[m[K,
+[3.274s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25[m[K,
+[3.274s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18[m[K,
+[3.274s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20[m[K,
+[3.274s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37[m[K,
+[3.274s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25[m[K,
+[3.274s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21[m[K,
+[3.274s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155[m[K,
+[3.274s]                  from [01m[K/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/src/test_pkg/src/su_fkik.cpp:4[m[K:
+[3.274s] [01m[K/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/src/test_pkg/src/su_fkik.cpp:[m[K In member function ‘[01m[Kvoid su_fkik::cf_pose_subscriber(geometry_msgs::msg::PoseStamped_<std::allocator<void> >::SharedPtr)[m[K’:
+[3.274s] [01m[K/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/src/test_pkg/src/su_fkik.cpp:288:39:[m[K [01;35m[Kwarning: [m[Kformat ‘[01m[K%lf[m[K’ expects argument of type ‘[01m[Kdouble[m[K’, but argument 8 has type ‘[01m[KEigen::Vector3d[m[K’ {aka ‘[01m[KEigen::Matrix<double, 3, 1>[m[K’} [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wformat=-Wformat=]8;;[m[K]
+[3.275s]   288 | is->get_logger(), [01;35m[K"global_xyz_cmd [%lf] [%lf] [%lf] [%lf]"[m[K,
+[3.275s]       |                   [01;35m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[3.275s] 
+[3.275s] [01m[K/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/src/test_pkg/src/su_fkik.cpp:288:76:[m[K [01;36m[Knote: [m[Kformat string is defined here
+[3.275s]   288 | cmd [%lf] [%lf] [%lf] [[01;36m[K%lf[m[K]",
+[3.275s]       |                        [01;36m[K~~^[m[K
+[3.275s]       |                          [01;36m[K|[m[K
+[3.275s]       |                          [01;36m[Kdouble[m[K
+[3.275s] 
+[13.994s] [ 91%] [32m[1mLinking CXX executable su_fkik[0m
+[14.705s] [100%] Built target su_fkik
+[14.718s] Invoked command in '/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/test_pkg' returned '0': CMAKE_PREFIX_PATH=/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_interfaces:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking_interfaces:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_sim:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_examples:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_mpc:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_py:/opt/ros/humble LD_LIBRARY_PATH=/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_interfaces/lib:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking_interfaces/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib /usr/bin/cmake --build /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/test_pkg -- -j16 -l16
+[14.720s] Invoking command in '/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/test_pkg': CMAKE_PREFIX_PATH=/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_interfaces:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking_interfaces:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_sim:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_examples:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_mpc:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_py:/opt/ros/humble LD_LIBRARY_PATH=/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_interfaces/lib:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking_interfaces/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib /usr/bin/cmake --install /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/test_pkg
+[14.728s] -- Install configuration: ""
+[14.728s] -- Execute custom install script
+[14.728s] -- Up-to-date symlink: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/lib/test_pkg/su_rviz
+[14.728s] -- Up-to-date symlink: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/lib/test_pkg/su_fkik
+[14.729s] -- Up-to-date symlink: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/lib/test_pkg/trajectory_generator
+[14.729s] -- Up-to-date symlink: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/lib/test_pkg/keyboard_publisher
+[14.730s] -- Up-to-date symlink: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/share/test_pkg//launch/launch.py
+[14.730s] -- Up-to-date symlink: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/share/ament_index/resource_index/package_run_dependencies/test_pkg
+[14.730s] -- Up-to-date symlink: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/share/ament_index/resource_index/parent_prefix_path/test_pkg
+[14.730s] -- Up-to-date symlink: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/share/test_pkg/environment/ament_prefix_path.sh
+[14.730s] -- Up-to-date symlink: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/share/test_pkg/environment/ament_prefix_path.dsv
+[14.730s] -- Up-to-date symlink: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/share/test_pkg/environment/path.sh
+[14.730s] -- Up-to-date symlink: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/share/test_pkg/environment/path.dsv
+[14.731s] -- Up-to-date symlink: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/share/test_pkg/local_setup.bash
+[14.731s] -- Up-to-date symlink: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/share/test_pkg/local_setup.sh
+[14.731s] -- Up-to-date symlink: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/share/test_pkg/local_setup.zsh
+[14.731s] -- Up-to-date symlink: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/share/test_pkg/local_setup.dsv
+[14.731s] -- Symlinking: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/share/test_pkg/package.dsv
+[14.742s] -- Up-to-date symlink: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/share/ament_index/resource_index/packages/test_pkg
+[14.742s] -- Up-to-date symlink: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/share/test_pkg/cmake/test_pkgConfig.cmake
+[14.742s] -- Up-to-date symlink: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/share/test_pkg/cmake/test_pkgConfig-version.cmake
+[14.742s] -- Up-to-date symlink: /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/share/test_pkg/package.xml
+[14.745s] Invoked command in '/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/test_pkg' returned '0': CMAKE_PREFIX_PATH=/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_interfaces:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking_interfaces:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_sim:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_examples:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_mpc:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_py:/opt/ros/humble LD_LIBRARY_PATH=/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_interfaces/lib:/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/motion_capture_tracking_interfaces/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib /usr/bin/cmake --install /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/test_pkg
