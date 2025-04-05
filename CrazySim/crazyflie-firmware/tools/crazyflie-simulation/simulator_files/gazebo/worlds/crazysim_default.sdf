@@ -16,7 +16,10 @@
       <render_engine>ogre2</render_engine>
     </plugin>
     
-    <plugin name="gz::sim::systems::ForceTorque" filename="libgz-sim-forcetorque-system.so"/>
+    <plugin 
+        filename="ignition-gazebo-forcetorque-system" 
+        name="ignition::gazebo::systems::ForceTorque">
+    </plugin>
         
     <gravity>0 0 -9.80665</gravity>
     <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>

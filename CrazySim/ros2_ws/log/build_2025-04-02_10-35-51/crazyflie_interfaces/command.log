@@ -1,4 +1,0 @@
-Invoking command in '/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/crazyflie_interfaces': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/crazyflie_interfaces -- -j16 -l16
-Invoked command in '/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/crazyflie_interfaces' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/crazyflie_interfaces -- -j16 -l16
-Invoking command in '/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/crazyflie_interfaces': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/crazyflie_interfaces
-Invoked command in '/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/crazyflie_interfaces' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/crazyflie_interfaces

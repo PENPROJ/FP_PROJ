@@ -1,3 +1,4 @@
+/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/lib/test_pkg/wrench_bridge
 /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/lib/test_pkg/su_rviz
 /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/lib/test_pkg/su_fkik
 /home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/test_pkg/lib/test_pkg/trajectory_generator

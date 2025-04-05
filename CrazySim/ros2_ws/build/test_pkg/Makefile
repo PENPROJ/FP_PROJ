@@ -198,6 +198,19 @@ test_pkg_uninstall/fast:
 .PHONY : test_pkg_uninstall/fast
 
 #=============================================================================
+# Target rules for targets named wrench_bridge
+
+# Build rule for target.
+wrench_bridge: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 wrench_bridge
+.PHONY : wrench_bridge
+
+# fast build rule for target.
+wrench_bridge/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/wrench_bridge.dir/build.make CMakeFiles/wrench_bridge.dir/build
+.PHONY : wrench_bridge/fast
+
+#=============================================================================
 # Target rules for targets named su_rviz
 
 # Build rule for target.
@@ -291,6 +304,30 @@ src/ButterworthFilter.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/trajectory_generator.dir/build.make CMakeFiles/trajectory_generator.dir/src/ButterworthFilter.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ButterworthFilter.dir/build.make CMakeFiles/ButterworthFilter.dir/src/ButterworthFilter.cpp.s
 .PHONY : src/ButterworthFilter.cpp.s
+
+src/gz_to_ros_wrench_bridge.o: src/gz_to_ros_wrench_bridge.cpp.o
+.PHONY : src/gz_to_ros_wrench_bridge.o
+
+# target to build an object file
+src/gz_to_ros_wrench_bridge.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/wrench_bridge.dir/build.make CMakeFiles/wrench_bridge.dir/src/gz_to_ros_wrench_bridge.cpp.o
+.PHONY : src/gz_to_ros_wrench_bridge.cpp.o
+
+src/gz_to_ros_wrench_bridge.i: src/gz_to_ros_wrench_bridge.cpp.i
+.PHONY : src/gz_to_ros_wrench_bridge.i
+
+# target to preprocess a source file
+src/gz_to_ros_wrench_bridge.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/wrench_bridge.dir/build.make CMakeFiles/wrench_bridge.dir/src/gz_to_ros_wrench_bridge.cpp.i
+.PHONY : src/gz_to_ros_wrench_bridge.cpp.i
+
+src/gz_to_ros_wrench_bridge.s: src/gz_to_ros_wrench_bridge.cpp.s
+.PHONY : src/gz_to_ros_wrench_bridge.s
+
+# target to generate assembly for a file
+src/gz_to_ros_wrench_bridge.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/wrench_bridge.dir/build.make CMakeFiles/wrench_bridge.dir/src/gz_to_ros_wrench_bridge.cpp.s
+.PHONY : src/gz_to_ros_wrench_bridge.cpp.s
 
 src/keyboard_publisher.o: src/keyboard_publisher.cpp.o
 .PHONY : src/keyboard_publisher.o
@@ -408,9 +445,13 @@ help:
 	@echo "... su_fkik"
 	@echo "... su_rviz"
 	@echo "... trajectory_generator"
+	@echo "... wrench_bridge"
 	@echo "... src/ButterworthFilter.o"
 	@echo "... src/ButterworthFilter.i"
 	@echo "... src/ButterworthFilter.s"
+	@echo "... src/gz_to_ros_wrench_bridge.o"
+	@echo "... src/gz_to_ros_wrench_bridge.i"
+	@echo "... src/gz_to_ros_wrench_bridge.s"
 	@echo "... src/keyboard_publisher.o"
 	@echo "... src/keyboard_publisher.i"
 	@echo "... src/keyboard_publisher.s"

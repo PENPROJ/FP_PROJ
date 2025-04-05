@@ -1,1 +1,1 @@
-rclcpp;rclpy;std_msgs;crazyflie_interfaces;ament_lint_auto;ament_lint_common
+rclcpp;rclpy;std_msgs;crazyflie_interfaces;gz-msgs11;gz-transport12;ament_lint_auto;ament_lint_common
