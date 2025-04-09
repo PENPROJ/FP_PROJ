@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/src/test_pkg/include -I/usr/include/eigen3
 
-CXX_FLAGS = -Wall -Wextra -Wpedantic
+CXX_FLAGS = -Wall -Wextra -Wpedantic -std=gnu++20
 

@@ -314,8 +314,17 @@ Protobuf_PROTOC_LIBRARY_RELEASE:FILEPATH=/usr/lib/x86_64-linux-gnu/libprotoc.so
 //Path to a program.
 Python3_EXECUTABLE:FILEPATH=/usr/bin/python3
 
+//Select ROS middleware implementation to link against
+RMW_IMPLEMENTATION:STRING=rmw_fastrtps_cpp
+
 //Name of the computer/site where compile is being run
 SITE:STRING=mrlseuk
+
+//Path to a file.
+TINYXML2_INCLUDE_DIR:PATH=/usr/include
+
+//Path to a library.
+TINYXML2_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libtinyxml2.so
 
 //Path to a library.
 TINYXML2_LIBRARY_tinyxml2:FILEPATH=/usr/lib/x86_64-linux-gnu/libtinyxml2.so
@@ -333,7 +342,7 @@ ZeroMQ_DIR:PATH=ZeroMQ_DIR-NOTFOUND
 ZeroMQ_LIBRARY_zmq:FILEPATH=/usr/lib/x86_64-linux-gnu/libzmq.so
 
 //Path to a library.
-_lib:FILEPATH=/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/install/crazyflie_interfaces/lib/libcrazyflie_interfaces__rosidl_typesupport_fastrtps_cpp.so
+_lib:FILEPATH=/opt/ros/humble/lib/libturtlesim__rosidl_typesupport_fastrtps_cpp.so
 
 //The directory containing a CMake configuration file for action_msgs.
 action_msgs_DIR:PATH=/opt/ros/humble/share/action_msgs/cmake
@@ -527,6 +536,9 @@ pkgcfg_lib__OPENSSL_crypto:FILEPATH=/usr/lib/x86_64-linux-gnu/libcrypto.so
 //Path to a library.
 pkgcfg_lib__OPENSSL_ssl:FILEPATH=/usr/lib/x86_64-linux-gnu/libssl.so
 
+//The directory containing a CMake configuration file for pluginlib.
+pluginlib_DIR:PATH=/opt/ros/humble/share/pluginlib/cmake
+
 //The directory containing a CMake configuration file for rcl.
 rcl_DIR:PATH=/opt/ros/humble/share/rcl/cmake
 
@@ -583,6 +595,12 @@ rmw_implementation_cmake_DIR:PATH=/opt/ros/humble/share/rmw_implementation_cmake
 
 //The directory containing a CMake configuration file for ros_gz_interfaces.
 ros_gz_interfaces_DIR:PATH=/opt/ros/humble/share/ros_gz_interfaces/cmake
+
+//The directory containing a CMake configuration file for rosbag2_cpp.
+rosbag2_cpp_DIR:PATH=/opt/ros/humble/share/rosbag2_cpp/cmake
+
+//The directory containing a CMake configuration file for rosbag2_storage.
+rosbag2_storage_DIR:PATH=/opt/ros/humble/share/rosbag2_storage/cmake
 
 //The directory containing a CMake configuration file for rosgraph_msgs.
 rosgraph_msgs_DIR:PATH=/opt/ros/humble/share/rosgraph_msgs/cmake
@@ -662,8 +680,14 @@ tf2_msgs_DIR:PATH=/opt/ros/humble/share/tf2_msgs/cmake
 //The directory containing a CMake configuration file for tf2_ros.
 tf2_ros_DIR:PATH=/opt/ros/humble/share/tf2_ros/cmake
 
+//The directory containing a CMake configuration file for tinyxml2_vendor.
+tinyxml2_vendor_DIR:PATH=/opt/ros/humble/share/tinyxml2_vendor/cmake
+
 //The directory containing a CMake configuration file for tracetools.
 tracetools_DIR:PATH=/opt/ros/humble/share/tracetools/cmake
+
+//The directory containing a CMake configuration file for turtlesim.
+turtlesim_DIR:PATH=/opt/ros/humble/share/turtlesim/cmake
 
 //The directory containing a CMake configuration file for unique_identifier_msgs.
 unique_identifier_msgs_DIR:PATH=/opt/ros/humble/share/unique_identifier_msgs/cmake
@@ -674,8 +698,14 @@ visualization_msgs_DIR:PATH=/opt/ros/humble/share/visualization_msgs/cmake
 //Path to a program.
 xmllint_BIN:FILEPATH=/usr/bin/xmllint
 
+//The directory containing a CMake configuration file for yaml-cpp.
+yaml-cpp_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/yaml-cpp
+
 //The directory containing a CMake configuration file for yaml.
 yaml_DIR:PATH=/opt/ros/humble/cmake
+
+//The directory containing a CMake configuration file for yaml_cpp_vendor.
+yaml_cpp_vendor_DIR:PATH=/opt/ros/humble/share/yaml_cpp_vendor/cmake
 
 
 ########################
@@ -920,10 +950,14 @@ TINYXML2_CFLAGS:INTERNAL=
 TINYXML2_CFLAGS_I:INTERNAL=
 TINYXML2_CFLAGS_OTHER:INTERNAL=
 TINYXML2_INCLUDEDIR:INTERNAL=/usr/include
+//ADVANCED property for variable: TINYXML2_INCLUDE_DIR
+TINYXML2_INCLUDE_DIR-ADVANCED:INTERNAL=1
 TINYXML2_LDFLAGS:INTERNAL=-L/usr/lib/x86_64-linux-gnu;-ltinyxml2
 TINYXML2_LDFLAGS_OTHER:INTERNAL=
 TINYXML2_LIBDIR:INTERNAL=/usr/lib/x86_64-linux-gnu
 TINYXML2_LIBRARIES:INTERNAL=tinyxml2
+//ADVANCED property for variable: TINYXML2_LIBRARY
+TINYXML2_LIBRARY-ADVANCED:INTERNAL=1
 TINYXML2_LIBRARY_DIRS:INTERNAL=/usr/lib/x86_64-linux-gnu
 //ADVANCED property for variable: TINYXML2_LIBRARY_tinyxml2
 TINYXML2_LIBRARY_tinyxml2-ADVANCED:INTERNAL=1
@@ -1063,7 +1097,7 @@ _Python3_EXECUTABLE:INTERNAL=/usr/bin/python3
 _Python3_INTERPRETER_PROPERTIES:INTERNAL=Python;3;10;12;64;;cpython-310-x86_64-linux-gnu;/usr/lib/python3.10;/usr/lib/python3.10;/usr/lib/python3/dist-packages;/usr/lib/python3/dist-packages
 _Python3_INTERPRETER_SIGNATURE:INTERNAL=0f3e53742e142b1d9e50e4ca5b901dd8
 //Index for unique symlink install targets
-__AMENT_CMAKE_SYMLINK_INSTALL_TARGETS_INDEX:INTERNAL=5
+__AMENT_CMAKE_SYMLINK_INSTALL_TARGETS_INDEX:INTERNAL=6
 __pkg_config_arguments_NCURSES:INTERNAL=QUIET;ncurses
 __pkg_config_arguments_TINYXML2:INTERNAL=tinyxml2
 __pkg_config_arguments_UUID:INTERNAL=uuid

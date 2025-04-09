@@ -275,11 +275,25 @@ ButterworthFilter/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ButterworthFilter.dir/build.make CMakeFiles/ButterworthFilter.dir/build
 .PHONY : ButterworthFilter/fast
 
+#=============================================================================
+# Target rules for targets named data_logging
+
+# Build rule for target.
+data_logging: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 data_logging
+.PHONY : data_logging
+
+# fast build rule for target.
+data_logging/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/data_logging.dir/build.make CMakeFiles/data_logging.dir/build
+.PHONY : data_logging/fast
+
 src/ButterworthFilter.o: src/ButterworthFilter.cpp.o
 .PHONY : src/ButterworthFilter.o
 
 # target to build an object file
 src/ButterworthFilter.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/wrench_bridge.dir/build.make CMakeFiles/wrench_bridge.dir/src/ButterworthFilter.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/su_fkik.dir/build.make CMakeFiles/su_fkik.dir/src/ButterworthFilter.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/trajectory_generator.dir/build.make CMakeFiles/trajectory_generator.dir/src/ButterworthFilter.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ButterworthFilter.dir/build.make CMakeFiles/ButterworthFilter.dir/src/ButterworthFilter.cpp.o
@@ -290,6 +304,7 @@ src/ButterworthFilter.i: src/ButterworthFilter.cpp.i
 
 # target to preprocess a source file
 src/ButterworthFilter.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/wrench_bridge.dir/build.make CMakeFiles/wrench_bridge.dir/src/ButterworthFilter.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/su_fkik.dir/build.make CMakeFiles/su_fkik.dir/src/ButterworthFilter.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/trajectory_generator.dir/build.make CMakeFiles/trajectory_generator.dir/src/ButterworthFilter.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ButterworthFilter.dir/build.make CMakeFiles/ButterworthFilter.dir/src/ButterworthFilter.cpp.i
@@ -300,34 +315,35 @@ src/ButterworthFilter.s: src/ButterworthFilter.cpp.s
 
 # target to generate assembly for a file
 src/ButterworthFilter.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/wrench_bridge.dir/build.make CMakeFiles/wrench_bridge.dir/src/ButterworthFilter.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/su_fkik.dir/build.make CMakeFiles/su_fkik.dir/src/ButterworthFilter.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/trajectory_generator.dir/build.make CMakeFiles/trajectory_generator.dir/src/ButterworthFilter.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ButterworthFilter.dir/build.make CMakeFiles/ButterworthFilter.dir/src/ButterworthFilter.cpp.s
 .PHONY : src/ButterworthFilter.cpp.s
 
-src/gz_to_ros_wrench_bridge.o: src/gz_to_ros_wrench_bridge.cpp.o
-.PHONY : src/gz_to_ros_wrench_bridge.o
+src/data_logging.o: src/data_logging.cpp.o
+.PHONY : src/data_logging.o
 
 # target to build an object file
-src/gz_to_ros_wrench_bridge.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/wrench_bridge.dir/build.make CMakeFiles/wrench_bridge.dir/src/gz_to_ros_wrench_bridge.cpp.o
-.PHONY : src/gz_to_ros_wrench_bridge.cpp.o
+src/data_logging.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/data_logging.dir/build.make CMakeFiles/data_logging.dir/src/data_logging.cpp.o
+.PHONY : src/data_logging.cpp.o
 
-src/gz_to_ros_wrench_bridge.i: src/gz_to_ros_wrench_bridge.cpp.i
-.PHONY : src/gz_to_ros_wrench_bridge.i
+src/data_logging.i: src/data_logging.cpp.i
+.PHONY : src/data_logging.i
 
 # target to preprocess a source file
-src/gz_to_ros_wrench_bridge.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/wrench_bridge.dir/build.make CMakeFiles/wrench_bridge.dir/src/gz_to_ros_wrench_bridge.cpp.i
-.PHONY : src/gz_to_ros_wrench_bridge.cpp.i
+src/data_logging.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/data_logging.dir/build.make CMakeFiles/data_logging.dir/src/data_logging.cpp.i
+.PHONY : src/data_logging.cpp.i
 
-src/gz_to_ros_wrench_bridge.s: src/gz_to_ros_wrench_bridge.cpp.s
-.PHONY : src/gz_to_ros_wrench_bridge.s
+src/data_logging.s: src/data_logging.cpp.s
+.PHONY : src/data_logging.s
 
 # target to generate assembly for a file
-src/gz_to_ros_wrench_bridge.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/wrench_bridge.dir/build.make CMakeFiles/wrench_bridge.dir/src/gz_to_ros_wrench_bridge.cpp.s
-.PHONY : src/gz_to_ros_wrench_bridge.cpp.s
+src/data_logging.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/data_logging.dir/build.make CMakeFiles/data_logging.dir/src/data_logging.cpp.s
+.PHONY : src/data_logging.cpp.s
 
 src/keyboard_publisher.o: src/keyboard_publisher.cpp.o
 .PHONY : src/keyboard_publisher.o
@@ -425,6 +441,30 @@ src/trajectory_generator.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/trajectory_generator.dir/build.make CMakeFiles/trajectory_generator.dir/src/trajectory_generator.cpp.s
 .PHONY : src/trajectory_generator.cpp.s
 
+src/wrench_bridge.o: src/wrench_bridge.cpp.o
+.PHONY : src/wrench_bridge.o
+
+# target to build an object file
+src/wrench_bridge.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/wrench_bridge.dir/build.make CMakeFiles/wrench_bridge.dir/src/wrench_bridge.cpp.o
+.PHONY : src/wrench_bridge.cpp.o
+
+src/wrench_bridge.i: src/wrench_bridge.cpp.i
+.PHONY : src/wrench_bridge.i
+
+# target to preprocess a source file
+src/wrench_bridge.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/wrench_bridge.dir/build.make CMakeFiles/wrench_bridge.dir/src/wrench_bridge.cpp.i
+.PHONY : src/wrench_bridge.cpp.i
+
+src/wrench_bridge.s: src/wrench_bridge.cpp.s
+.PHONY : src/wrench_bridge.s
+
+# target to generate assembly for a file
+src/wrench_bridge.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/wrench_bridge.dir/build.make CMakeFiles/wrench_bridge.dir/src/wrench_bridge.cpp.s
+.PHONY : src/wrench_bridge.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -441,6 +481,7 @@ help:
 	@echo "... test_pkg_uninstall"
 	@echo "... uninstall"
 	@echo "... ButterworthFilter"
+	@echo "... data_logging"
 	@echo "... keyboard_publisher"
 	@echo "... su_fkik"
 	@echo "... su_rviz"
@@ -449,9 +490,9 @@ help:
 	@echo "... src/ButterworthFilter.o"
 	@echo "... src/ButterworthFilter.i"
 	@echo "... src/ButterworthFilter.s"
-	@echo "... src/gz_to_ros_wrench_bridge.o"
-	@echo "... src/gz_to_ros_wrench_bridge.i"
-	@echo "... src/gz_to_ros_wrench_bridge.s"
+	@echo "... src/data_logging.o"
+	@echo "... src/data_logging.i"
+	@echo "... src/data_logging.s"
 	@echo "... src/keyboard_publisher.o"
 	@echo "... src/keyboard_publisher.i"
 	@echo "... src/keyboard_publisher.s"
@@ -464,6 +505,9 @@ help:
 	@echo "... src/trajectory_generator.o"
 	@echo "... src/trajectory_generator.i"
 	@echo "... src/trajectory_generator.s"
+	@echo "... src/wrench_bridge.o"
+	@echo "... src/wrench_bridge.i"
+	@echo "... src/wrench_bridge.s"
 .PHONY : help
 
 
