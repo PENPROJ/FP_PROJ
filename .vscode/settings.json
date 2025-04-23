@@ -67,6 +67,11 @@
         "cinttypes": "cpp",
         "typeindex": "cpp",
         "typeinfo": "cpp",
-        "valarray": "cpp"
-    }
+        "valarray": "cpp",
+        "filesystem": "cpp",
+        "hash_map": "cpp",
+        "hash_set": "cpp",
+        "regex": "cpp"
+    },
+    "cmake.sourceDirectory": "/home/mrl-seuk/sitl_crazy/CrazySim/crazyflie-firmware/tools/crazyflie-simulation/simulator_files/gazebo/controllers"
 }

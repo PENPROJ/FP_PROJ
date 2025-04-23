@@ -263,6 +263,19 @@ keyboard_publisher/fast:
 .PHONY : keyboard_publisher/fast
 
 #=============================================================================
+# Target rules for targets named topic_csv_logger
+
+# Build rule for target.
+topic_csv_logger: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 topic_csv_logger
+.PHONY : topic_csv_logger
+
+# fast build rule for target.
+topic_csv_logger/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/topic_csv_logger.dir/build.make CMakeFiles/topic_csv_logger.dir/build
+.PHONY : topic_csv_logger/fast
+
+#=============================================================================
 # Target rules for targets named ButterworthFilter
 
 # Build rule for target.
@@ -287,6 +300,32 @@ data_logging: cmake_check_build_system
 data_logging/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/data_logging.dir/build.make CMakeFiles/data_logging.dir/build
 .PHONY : data_logging/fast
+
+#=============================================================================
+# Target rules for targets named topic_csv_pub
+
+# Build rule for target.
+topic_csv_pub: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 topic_csv_pub
+.PHONY : topic_csv_pub
+
+# fast build rule for target.
+topic_csv_pub/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/topic_csv_pub.dir/build.make CMakeFiles/topic_csv_pub.dir/build
+.PHONY : topic_csv_pub/fast
+
+#=============================================================================
+# Target rules for targets named csv_player
+
+# Build rule for target.
+csv_player: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 csv_player
+.PHONY : csv_player
+
+# fast build rule for target.
+csv_player/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/csv_player.dir/build.make CMakeFiles/csv_player.dir/build
+.PHONY : csv_player/fast
 
 src/ButterworthFilter.o: src/ButterworthFilter.cpp.o
 .PHONY : src/ButterworthFilter.o
@@ -320,6 +359,30 @@ src/ButterworthFilter.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/trajectory_generator.dir/build.make CMakeFiles/trajectory_generator.dir/src/ButterworthFilter.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ButterworthFilter.dir/build.make CMakeFiles/ButterworthFilter.dir/src/ButterworthFilter.cpp.s
 .PHONY : src/ButterworthFilter.cpp.s
+
+src/csv_player.o: src/csv_player.cpp.o
+.PHONY : src/csv_player.o
+
+# target to build an object file
+src/csv_player.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/csv_player.dir/build.make CMakeFiles/csv_player.dir/src/csv_player.cpp.o
+.PHONY : src/csv_player.cpp.o
+
+src/csv_player.i: src/csv_player.cpp.i
+.PHONY : src/csv_player.i
+
+# target to preprocess a source file
+src/csv_player.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/csv_player.dir/build.make CMakeFiles/csv_player.dir/src/csv_player.cpp.i
+.PHONY : src/csv_player.cpp.i
+
+src/csv_player.s: src/csv_player.cpp.s
+.PHONY : src/csv_player.s
+
+# target to generate assembly for a file
+src/csv_player.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/csv_player.dir/build.make CMakeFiles/csv_player.dir/src/csv_player.cpp.s
+.PHONY : src/csv_player.cpp.s
 
 src/data_logging.o: src/data_logging.cpp.o
 .PHONY : src/data_logging.o
@@ -417,6 +480,54 @@ src/su_rviz.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/su_rviz.dir/build.make CMakeFiles/su_rviz.dir/src/su_rviz.cpp.s
 .PHONY : src/su_rviz.cpp.s
 
+src/topic_csv_logger.o: src/topic_csv_logger.cpp.o
+.PHONY : src/topic_csv_logger.o
+
+# target to build an object file
+src/topic_csv_logger.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/topic_csv_logger.dir/build.make CMakeFiles/topic_csv_logger.dir/src/topic_csv_logger.cpp.o
+.PHONY : src/topic_csv_logger.cpp.o
+
+src/topic_csv_logger.i: src/topic_csv_logger.cpp.i
+.PHONY : src/topic_csv_logger.i
+
+# target to preprocess a source file
+src/topic_csv_logger.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/topic_csv_logger.dir/build.make CMakeFiles/topic_csv_logger.dir/src/topic_csv_logger.cpp.i
+.PHONY : src/topic_csv_logger.cpp.i
+
+src/topic_csv_logger.s: src/topic_csv_logger.cpp.s
+.PHONY : src/topic_csv_logger.s
+
+# target to generate assembly for a file
+src/topic_csv_logger.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/topic_csv_logger.dir/build.make CMakeFiles/topic_csv_logger.dir/src/topic_csv_logger.cpp.s
+.PHONY : src/topic_csv_logger.cpp.s
+
+src/topic_csv_pub.o: src/topic_csv_pub.cpp.o
+.PHONY : src/topic_csv_pub.o
+
+# target to build an object file
+src/topic_csv_pub.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/topic_csv_pub.dir/build.make CMakeFiles/topic_csv_pub.dir/src/topic_csv_pub.cpp.o
+.PHONY : src/topic_csv_pub.cpp.o
+
+src/topic_csv_pub.i: src/topic_csv_pub.cpp.i
+.PHONY : src/topic_csv_pub.i
+
+# target to preprocess a source file
+src/topic_csv_pub.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/topic_csv_pub.dir/build.make CMakeFiles/topic_csv_pub.dir/src/topic_csv_pub.cpp.i
+.PHONY : src/topic_csv_pub.cpp.i
+
+src/topic_csv_pub.s: src/topic_csv_pub.cpp.s
+.PHONY : src/topic_csv_pub.s
+
+# target to generate assembly for a file
+src/topic_csv_pub.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/topic_csv_pub.dir/build.make CMakeFiles/topic_csv_pub.dir/src/topic_csv_pub.cpp.s
+.PHONY : src/topic_csv_pub.cpp.s
+
 src/trajectory_generator.o: src/trajectory_generator.cpp.o
 .PHONY : src/trajectory_generator.o
 
@@ -481,15 +592,21 @@ help:
 	@echo "... test_pkg_uninstall"
 	@echo "... uninstall"
 	@echo "... ButterworthFilter"
+	@echo "... csv_player"
 	@echo "... data_logging"
 	@echo "... keyboard_publisher"
 	@echo "... su_fkik"
 	@echo "... su_rviz"
+	@echo "... topic_csv_logger"
+	@echo "... topic_csv_pub"
 	@echo "... trajectory_generator"
 	@echo "... wrench_bridge"
 	@echo "... src/ButterworthFilter.o"
 	@echo "... src/ButterworthFilter.i"
 	@echo "... src/ButterworthFilter.s"
+	@echo "... src/csv_player.o"
+	@echo "... src/csv_player.i"
+	@echo "... src/csv_player.s"
 	@echo "... src/data_logging.o"
 	@echo "... src/data_logging.i"
 	@echo "... src/data_logging.s"
@@ -502,6 +619,12 @@ help:
 	@echo "... src/su_rviz.o"
 	@echo "... src/su_rviz.i"
 	@echo "... src/su_rviz.s"
+	@echo "... src/topic_csv_logger.o"
+	@echo "... src/topic_csv_logger.i"
+	@echo "... src/topic_csv_logger.s"
+	@echo "... src/topic_csv_pub.o"
+	@echo "... src/topic_csv_pub.i"
+	@echo "... src/topic_csv_pub.s"
 	@echo "... src/trajectory_generator.o"
 	@echo "... src/trajectory_generator.i"
 	@echo "... src/trajectory_generator.s"

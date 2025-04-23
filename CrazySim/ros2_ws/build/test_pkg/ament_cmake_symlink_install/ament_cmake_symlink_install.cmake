@@ -325,8 +325,17 @@ include("/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/test_pkg/ament_cmake_s
 # install("TARGETS" "keyboard_publisher" "DESTINATION" "lib/test_pkg")
 include("/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/test_pkg/ament_cmake_symlink_install_targets_4_${CMAKE_INSTALL_CONFIG_NAME}.cmake")
 
-# install("TARGETS" "data_logging" "DESTINATION" "lib/test_pkg")
+# install("TARGETS" "topic_csv_logger" "DESTINATION" "lib/test_pkg")
 include("/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/test_pkg/ament_cmake_symlink_install_targets_5_${CMAKE_INSTALL_CONFIG_NAME}.cmake")
+
+# install("TARGETS" "data_logging" "DESTINATION" "lib/test_pkg")
+include("/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/test_pkg/ament_cmake_symlink_install_targets_6_${CMAKE_INSTALL_CONFIG_NAME}.cmake")
+
+# install("TARGETS" "topic_csv_pub" "DESTINATION" "lib/test_pkg")
+include("/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/test_pkg/ament_cmake_symlink_install_targets_7_${CMAKE_INSTALL_CONFIG_NAME}.cmake")
+
+# install("TARGETS" "csv_player" "DESTINATION" "lib/test_pkg")
+include("/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/test_pkg/ament_cmake_symlink_install_targets_8_${CMAKE_INSTALL_CONFIG_NAME}.cmake")
 
 # install(DIRECTORY "launch" "DESTINATION" "share/test_pkg/")
 ament_cmake_symlink_install_directory("/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/src/test_pkg" DIRECTORY "launch" "DESTINATION" "share/test_pkg/")

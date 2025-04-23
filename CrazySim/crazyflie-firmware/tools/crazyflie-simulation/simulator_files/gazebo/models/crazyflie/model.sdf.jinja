@@ -114,13 +114,21 @@
             <diffuse>1.0 0.0 0.0 1.0</diffuse>
         </material>
     </visual>
-    <collision name="collision_link_EE">
-        <geometry>
-            <sphere>
-                <radius>0.004</radius>
-            </sphere>
-        </geometry>
-    </collision>
+	<collision name="collision_link_EE">
+	    <geometry>
+		<sphere>
+		    <radius>0.004</radius>
+		</sphere>
+	    </geometry>
+	    <surface>
+		<friction>
+		    <ode>
+		        <mu>0.0001</mu>
+		        <mu2>0.0001</mu2>
+		    </ode>
+		</friction>
+	    </surface>
+	</collision>
 </link>
 
     <joint name="joint_EE" type="revolute">
