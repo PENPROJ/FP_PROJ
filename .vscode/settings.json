@@ -71,7 +71,10 @@
         "filesystem": "cpp",
         "hash_map": "cpp",
         "hash_set": "cpp",
-        "regex": "cpp"
+        "regex": "cpp",
+        "controller_brescianini.h": "c",
+        "param.h": "c",
+        "attitude_controller.h": "c"
     },
     "cmake.sourceDirectory": "/home/mrl-seuk/sitl_crazy/CrazySim/crazyflie-firmware/tools/crazyflie-simulation/simulator_files/gazebo/controllers"
 }
