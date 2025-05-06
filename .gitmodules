@@ -1,3 +1,0 @@
-[submodule "CrazySim/ros2_ws/src/test_pkg"]
-	path = CrazySim/ros2_ws/src/test_pkg
-	url = https://github.com/SEOSUK/flying_pen_hardware_integrating.git
