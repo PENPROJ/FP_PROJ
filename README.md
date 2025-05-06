@@ -15,7 +15,7 @@ This repository is from belows:
 
 # install guide
 
-git clone https://github.com/SEOSUK/DOING-sitl_SEDASOM --recursive
+git clone https://github.com/PENPROJ/FP_PROJ --recursive
 
 “이름 바꾸기, sitl_crazy”
 
