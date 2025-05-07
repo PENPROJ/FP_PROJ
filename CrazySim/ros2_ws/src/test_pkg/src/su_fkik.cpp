@@ -64,7 +64,7 @@ su_fkik() : Node("su_fkik"),
 
 
         global_EE_cmd_xyzYaw_subscriber_ = this->create_subscription<std_msgs::msg::Float64MultiArray>(
-          "/pen/EE_cmd_xyzYaw", qos_settings,
+          "/pen/EE_des_xyzYaw", qos_settings,
           std::bind(&su_fkik::global_EE_cmd_xyzYaw_subscriber, this, std::placeholders::_1));
 
           

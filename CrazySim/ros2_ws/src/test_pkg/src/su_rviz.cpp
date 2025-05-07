@@ -60,13 +60,18 @@ public:
           "/pen/EE_xyzrpy_vel", qos_settings,
           std::bind(&su_rviz::global_EE_xyz_vel_callback, this, std::placeholders::_1));
 
-          global_xyz_cmd_subscriber_ = this->create_subscription<std_msgs::msg::Float64MultiArray>(
-          "/pen/EE_cmd_xyzYaw", qos_settings,
-          std::bind(&su_rviz::global_xyz_cmd_callback, this, std::placeholders::_1));
+        global_xyz_cmd_subscriber_ = this->create_subscription<std_msgs::msg::Float64MultiArray>(
+        "/pen/EE_des_xyzYaw", qos_settings,
+        std::bind(&su_rviz::global_xyz_cmd_callback, this, std::placeholders::_1));
 
-          force_subscriber_ = this->create_subscription<geometry_msgs::msg::Wrench>(
-            "/ee/force_wrench", qos_settings,
-            std::bind(&su_rviz::force_callback, this, std::placeholders::_1));
+        Chat_rpy_subscriber_ = this->create_subscription<std_msgs::msg::Float64MultiArray>(
+          "/pen/Chat_rpy", qos_settings,
+          std::bind(&su_rviz::Chat_rpy_callback, this, std::placeholders::_1));
+
+
+        force_subscriber_ = this->create_subscription<geometry_msgs::msg::Wrench>(
+          "/ee/force_wrench", qos_settings,
+          std::bind(&su_rviz::force_callback, this, std::placeholders::_1));
   
 
 
@@ -90,7 +95,8 @@ public:
 
         cf_pose_tf_publisher();   //Crazyflie position 시각화
         cf_vel_arrow_publisher();    // crazyflie velocity 시각화
-        cf_Force_arrow_publisher();        
+        cf_Force_arrow_publisher();    // crazyflie force 시각화
+        Chat_frame_tf_publisher();    // Chat frame 시각화
       }
 
 
@@ -158,14 +164,20 @@ public:
       drone_yaw = msg->data[3];
     }
 
+    void Chat_rpy_callback(const std_msgs::msg::Float64MultiArray::SharedPtr msg){
+      Chat_rpy[0] = msg->data[0];
+      Chat_rpy[1] = msg->data[1];
+      Chat_rpy[2] = msg->data[2];
+      Chat_rpy[3] = msg->data[3];
+    }
+
     void force_callback(const geometry_msgs::msg::Wrench::SharedPtr msg){
-      body_force_meas[0] = msg->force.x;
-      body_force_meas[1] = msg->force.y;
-      body_force_meas[2] = msg->force.z;
+      global_force_meas[0] = msg->force.x;
+      global_force_meas[1] = msg->force.y;
+      global_force_meas[2] = msg->force.z;
 
-      global_force_meas = R_B * body_force_meas;
-
-    }    
+    }
+    
 
     void cf_box_marker_publisher() {
       auto marker = visualization_msgs::msg::Marker();
@@ -221,10 +233,6 @@ public:
       transformStamped.transform.rotation.w = quat.w();
 
       tf_broadcaster_->sendTransform(transformStamped);
-
-
-
-
     }
 
 
@@ -342,6 +350,29 @@ public:
         tf_broadcaster_->sendTransform(transform_msg);
     }    
 
+    void Chat_frame_tf_publisher()
+    {
+      geometry_msgs::msg::TransformStamped transform_msg;
+      transform_msg.header.stamp = this->get_clock()->now();
+      transform_msg.header.frame_id = "world";  // 부모 프레임
+      transform_msg.child_frame_id = "Chat_frame"; // 
+
+      transform_msg.transform.translation.x = global_EE_xyz_meas[0];
+      transform_msg.transform.translation.y = global_EE_xyz_meas[1];
+      transform_msg.transform.translation.z = global_EE_xyz_meas[2];
+
+      tf2::Quaternion quat;
+      quat.setRPY(Chat_rpy[0], Chat_rpy[1], Chat_rpy[2]);
+
+      transform_msg.transform.rotation.x = quat.x();
+      transform_msg.transform.rotation.y = quat.y();
+      transform_msg.transform.rotation.z = quat.z();
+      transform_msg.transform.rotation.w = quat.w();
+
+      // TF Broadcast
+      tf_broadcaster_->sendTransform(transform_msg);
+
+    }
 
     void cf_Force_arrow_publisher(){
       
@@ -392,6 +423,7 @@ public:
     rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr global_EE_xyz_subscriber_;
     rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr global_EE_xyz_vel_subscriber_;
     rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr global_xyz_cmd_subscriber_;
+    rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr Chat_rpy_subscriber_;
     rclcpp::Subscription<geometry_msgs::msg::Wrench>::SharedPtr force_subscriber_;
 
     std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
@@ -413,6 +445,10 @@ public:
     Eigen::Vector3d global_EE_rpy_meas;
     Eigen::Vector3d global_EE_xyz_vel_meas;
     Eigen::Vector3d global_xyz_cmd;
+
+    Eigen::VectorXd Chat_rpy = Eigen::VectorXd::Zero(4);
+
+
     double drone_yaw;
 };
 

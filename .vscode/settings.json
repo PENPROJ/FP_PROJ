@@ -74,7 +74,9 @@
         "regex": "cpp",
         "controller_brescianini.h": "c",
         "param.h": "c",
-        "attitude_controller.h": "c"
+        "attitude_controller.h": "c",
+        "core": "cpp",
+        "specialfunctions": "cpp"
     },
     "cmake.sourceDirectory": "/home/mrl-seuk/sitl_crazy/CrazySim/crazyflie-firmware/tools/crazyflie-simulation/simulator_files/gazebo/controllers"
 }

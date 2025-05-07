@@ -5,6 +5,7 @@
 #include <iostream>
 #include <std_msgs/msg/float64_multi_array.hpp>  // 다중 float64 배열 퍼블리시
 #include <std_msgs/msg/string.hpp>  // 다중 float64 배열 퍼블리시
+#include "geometry_msgs/msg/twist.hpp"  // 다중 float64 배열 퍼블리시
 #include <string> // std::string 헤더 추가
 #include "std_msgs/msg/float64.hpp"
 #include <eigen3/Eigen/Core>
@@ -21,6 +22,7 @@ class trajectory_generator : public rclcpp::Node
 public:
 trajectory_generator()
   : Node("su_position_ctrler"),
+  force_dot_filter(1, 3, 0.01), // LPF INIT
   count_(0)
   {
 
@@ -38,8 +40,18 @@ trajectory_generator()
       "keyboard_input", qos_settings,
       std::bind(&trajectory_generator::keyboard_subsciber_callback, this, std::placeholders::_1));
 
+    cf_pose_subscriber_ = this->create_subscription<std_msgs::msg::Float64MultiArray>(
+      "/pen/xyzrpy", qos_settings,  // Topic name and QoS depth
+      std::bind(&trajectory_generator::cf_pose_subscriber, this, std::placeholders::_1));
+
+    force_subscriber_ = this->create_subscription<geometry_msgs::msg::Wrench>(
+      "/ee/force_wrench", qos_settings,
+      std::bind(&trajectory_generator::force_callback, this, std::placeholders::_1));
+
+
     global_EE_des_xyzYaw_publisher_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("/pen/EE_des_xyzYaw", qos_settings);
-    global_EE_cmd_xyzYaw_publisher_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("/pen/EE_cmd_xyzYaw", qos_settings);
+    Chat_rpy_publisher_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("/pen/Chat_rpy", qos_settings);
+    global_EE_force_ctrl_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("/pen/global_EE_force", qos_settings);
 
       timer_ = this->create_wall_timer(
         10ms, std::bind(&trajectory_generator::timer_callback, this));
@@ -54,27 +66,67 @@ private:
     time_real = time_cnt * sampling_time;
 
     if (time_real < 5) init_hovering(); // 붕 뜨기
-    if (global_des_xyzYaw[2] < 0.15) global_des_xyzYaw[2] = -1; // sudo_land
+    else if (global_des_xyzYaw[2] < 0.05) global_des_xyzYaw[2] = -1; // sudo_land
     // external wrench observer를 여기에 하는게 나을지 fkik쪽에 넣는게 나을지 보류
+    contact_check();
     normal_vector_estimation();
-    surface_trajectory_generation();
+    Define_normal_frame();
     admittance_control();
+    surface_trajectory_generation();
 
     data_publish();
   }
 
+  void contact_check()
+  {
+    if (global_force_meas.norm() > 0.001) 
+    {
+      contact_flag = true;
+    }
+    else 
+    {
+      contact_flag = false;
+    }
+  }
 
   void normal_vector_estimation()
   {
 
-    
-    
+    normal_vector_hat << 1, 0, 0; // TODO: 이거 법선벡터 추정기로 바꾸기.
+  
+    normal_vector_hat_normalized.normalize();
   }
+
+
+  void Define_normal_frame()
+  {
+      Eigen::Vector3d g(0, 0, -9.81); // 일반적인 중력 방향
+      Chat_x = normal_vector_hat;
+      Chat_y = Chat_x.cross(g);
+      if (Chat_y.norm() < 1e-6) {
+        RCLCPP_WARN(this->get_logger(), "[Warning!!!] Gravity vector and normal vector are parallel!");
+        return;
+      }
+    Chat_x.normalize();
+    Chat_y.normalize();
+    Chat_z = Chat_x.cross(Chat_y);
+    Chat_z.normalize();
+
+    R_Chat.col(0) = Chat_x;
+    R_Chat.col(1) = Chat_y;
+    R_Chat.col(2) = Chat_z;
+
+
+    // RPY 각도 추출 (ZYX 순서: yaw → pitch → roll)
+    Eigen::Vector3d eul_zyx = R_Chat.eulerAngles(2, 1, 0);  // yaw, pitch, roll
+
+    Chat_rpy << eul_zyx[2], eul_zyx[1], eul_zyx[0];  // roll, pitch, yaw
+
+  }
+
 
   void data_publish()
   {
-
-
     std_msgs::msg::Float64MultiArray global_xyz_EE_des_msg;
     global_xyz_EE_des_msg.data.push_back(global_des_xyzYaw[0]);
     global_xyz_EE_des_msg.data.push_back(global_des_xyzYaw[1]);
@@ -82,12 +134,18 @@ private:
     global_xyz_EE_des_msg.data.push_back(global_des_xyzYaw[3]);
     global_EE_des_xyzYaw_publisher_->publish(global_xyz_EE_des_msg);
 
-    std_msgs::msg::Float64MultiArray global_xyz_EE_cmd_msg;
-    global_xyz_EE_cmd_msg.data.push_back(global_cmd_xyzYaw[0]);
-    global_xyz_EE_cmd_msg.data.push_back(global_cmd_xyzYaw[1]);
-    global_xyz_EE_cmd_msg.data.push_back(global_cmd_xyzYaw[2]);
-    global_xyz_EE_cmd_msg.data.push_back(global_cmd_xyzYaw[3]);
-    global_EE_cmd_xyzYaw_publisher_->publish(global_xyz_EE_cmd_msg);
+    std_msgs::msg::Float64MultiArray Chat_rpy_msg;
+    Chat_rpy_msg.data.push_back(Chat_rpy[0]);
+    Chat_rpy_msg.data.push_back(Chat_rpy[1]);
+    Chat_rpy_msg.data.push_back(Chat_rpy[2]);
+    if (contact_flag) Chat_rpy_msg.data.push_back(1);
+    else Chat_rpy_msg.data.push_back(0);
+    Chat_rpy_publisher_->publish(Chat_rpy_msg);
+
+    geometry_msgs::msg::Twist global_EE_force_ctrl_msg;
+    global_EE_force_ctrl_msg.linear.x = global_force_des[0];
+    global_EE_force_ctrl_msg.angular.x = global_force_meas[0];
+    global_EE_force_ctrl_publisher_->publish(global_EE_force_ctrl_msg);
 
   }
 
@@ -96,37 +154,58 @@ private:
 
   void init_hovering()
   {
-    
+
     if (time_real < 2) global_des_xyzYaw[2] = -0.1;
-    else if (time_real > 2 && time_real < 4) global_des_vel_xyzYaw[2] = 0.3;
+    else if (time_real > 2 && time_real < 4) chat_des_vel_xyzYaw[2] = 0.3;
     else if (time_real > 4.5 && time_real < 5) 
     {
       RCLCPP_INFO(this->get_logger(), "hovering done. ready to move");
-      global_des_vel_xyzYaw[2] = 0.0;    
+      chat_des_vel_xyzYaw[2] = 0.0;    
     }
-    RCLCPP_INFO(this->get_logger(), "z position: %lf", global_des_xyzYaw[2]);
+    RCLCPP_INFO(this->get_logger(), "z position: %lf", chat_des_vel_xyzYaw[2]);
   }
 
-  void admittance_control()
+  
+  void admittance_control() // 이라 하고 force control 이라 읽는다.
   {
-    // v_des에서 v_cmd를 만들기.
-    // p_cmd += v_cmd * dt
-    // p_des += v_des * dt. 계산두번하게 하자.
-    global_cmd_vel_xyzYaw = global_des_vel_xyzYaw;
+    chat_force_meas[0] = global_force_meas.dot(normal_vector_hat); //투영한 값. 
+    chat_force_error = chat_force_des - chat_force_meas;
+    chat_force_error_dot_raw = (chat_force_error - chat_force_error_prev) / sampling_time;
+    chat_force_error_dot = force_dot_filter.apply(chat_force_error_dot_raw);
+
+    chat_des_vel_adm.head(3) = virtual_damper * chat_force_error + virtual_spring * chat_force_error_dot;
+    /// 여기까지가 제어기 용이고, 아래에는 로깅을 위한 데이터 변환
+    global_force_des = R_Chat * chat_force_des;
+
   }
 
 
 
   void surface_trajectory_generation()
   {
-    //p_cmd와 p_des를 모두 계산.
+    if (contact_flag)
+      {
+        ////////////////////////
+        // Position Generation//
+        ////////////////////////
+        global_des_vel_xyzYaw.head(3) = R_Chat *(chat_des_vel_xyzYaw.head(3) + chat_des_vel_adm.head(3));
+        
+        ////////////////////////
+        //// Yaw Generation //// 우선은 PID 돌림.
+        ////////////////////////    
+        double global_yaw_cmd =  std::atan2(Chat_x[1], Chat_x[0]);
+        double global_error_yaw = global_yaw_cmd - body_rpy_meas[2];
+        double global_error_yaw_dot = (global_error_yaw - global_error_yaw_prev) / sampling_time;
+        global_des_vel_xyzYaw[3] = global_error_yaw + 0.01 * global_error_yaw_dot;
 
-  //  global_cmd_vel = R_C * contact_cmd_vel;
-  global_des_xyzYaw += global_des_vel_xyzYaw * sampling_time;
-  global_cmd_xyzYaw += global_cmd_vel_xyzYaw * sampling_time;
+      }
+    else 
+      {
+        global_des_vel_xyzYaw = chat_des_vel_xyzYaw;
+      }
+
+    global_des_xyzYaw += global_des_vel_xyzYaw * sampling_time;
   }
-
-
 
   void keyboard_subsciber_callback(const std_msgs::msg::String::SharedPtr msg)
   {
@@ -137,50 +216,132 @@ private:
         {
             char input_char = input[0]; // 문자열의 첫 번째 문자만 사용
 
-            if (input_char == 'w') global_des_vel_xyzYaw[0] += 0.1;
-            else if (input_char == 's') global_des_vel_xyzYaw[0] -= 0.1;
-            else if (input_char == 'a') global_des_vel_xyzYaw[1] += 0.1;
-            else if (input_char == 'd') global_des_vel_xyzYaw[1] -= 0.1;
-            else if (input_char == 'e') global_des_vel_xyzYaw[2] += 0.1;
-            else if (input_char == 'q') global_des_vel_xyzYaw[2] -= 0.1;
-            else if (input_char == 'z') global_des_vel_xyzYaw[3] += 0.1;
-            else if (input_char == 'c') global_des_vel_xyzYaw[3] -= 0.1;
+            if (input_char == 'w') chat_des_vel_xyzYaw[0] += 0.1;
+            else if (input_char == 's') chat_des_vel_xyzYaw[0] -= 0.1;
+            else if (input_char == 'a') chat_des_vel_xyzYaw[1] += 0.1;
+            else if (input_char == 'd') chat_des_vel_xyzYaw[1] -= 0.1;
+            else if (input_char == 'e') chat_des_vel_xyzYaw[2] += 0.1;
+            else if (input_char == 'q') chat_des_vel_xyzYaw[2] -= 0.1;
+            else if (input_char == 'z') chat_des_vel_xyzYaw[3] += 0.1;
+            else if (input_char == 'c') chat_des_vel_xyzYaw[3] -= 0.1;
             else if (input_char == 'x')
             {
-              global_des_vel_xyzYaw[0] = 0;
-              global_des_vel_xyzYaw[1] = 0;
-              global_des_vel_xyzYaw[2] = 0;
-              global_des_vel_xyzYaw[3] = 0;
+              chat_des_vel_xyzYaw[0] = 0;
+              chat_des_vel_xyzYaw[1] = 0;
+              chat_des_vel_xyzYaw[2] = 0;
+              chat_des_vel_xyzYaw[3] = 0;
             }            
-            else if (input_char == 'g')
+            else if (input_char == 'p')
             {
-              global_des_xyzYaw[2] = -1;
+              chat_des_vel_xyzYaw[2] = -1;
             }            
-        }
+            else if (input_char == 'j') chat_force_des[0] += 0.003;
+            else if (input_char == 'k') chat_force_des[0] -= 0.003;
+          }
 
     }
 
+    void cf_pose_subscriber(const std_msgs::msg::Float64MultiArray::SharedPtr msg)
+    {
+      global_xyz_meas[0] = msg->data[0];
+      global_xyz_meas[1] = msg->data[1];
+      global_xyz_meas[2] = msg->data[2];
+
+      body_rpy_meas[0] = msg->data[3];
+      body_rpy_meas[1] = msg->data[4];
+      body_rpy_meas[2] = msg->data[5];
+
+      //body rpy meas 0 1 2 를 기반으로 R_B 생성
+      Eigen::Matrix3d Rz, Ry, Rx;
+
+      Rz << cos(body_rpy_meas[2]), -sin(body_rpy_meas[2]), 0,
+            sin(body_rpy_meas[2]),  cos(body_rpy_meas[2]), 0,
+                 0  ,       0  , 1;
+  
+      Ry << cos(body_rpy_meas[1]), 0, sin(body_rpy_meas[1]),
+                   0 , 1,     0,
+           -sin(body_rpy_meas[1]), 0, cos(body_rpy_meas[1]);
+  
+      Rx << 1,      0       ,       0,
+            0, cos(body_rpy_meas[0]), -sin(body_rpy_meas[0]),
+            0, sin(body_rpy_meas[0]),  cos(body_rpy_meas[0]);
+  
+      R_B = Rz * Ry * Rx;
+    }
+
+    void force_callback(const geometry_msgs::msg::Wrench::SharedPtr msg){
+      global_force_meas[0] = - msg->force.x;
+      global_force_meas[1] = - msg->force.y;
+      global_force_meas[2] = - msg->force.z;
+
+    }    
 
     rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr global_EE_des_xyzYaw_publisher_;
-    rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr global_EE_cmd_xyzYaw_publisher_;
+    rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr Chat_rpy_publisher_;
+    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr global_EE_force_ctrl_publisher_;
 
-
+    
     rclcpp::Subscription<std_msgs::msg::String>::SharedPtr keyboard_subscriber_; 
-
+    rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr cf_pose_subscriber_;
+    rclcpp::Subscription<geometry_msgs::msg::Wrench>::SharedPtr force_subscriber_;
 
 
 
 
   size_t count_;
   Eigen::VectorXd global_des_xyzYaw = Eigen::VectorXd::Zero(4);
+  Eigen::VectorXd chat_des_vel_xyzYaw = Eigen::VectorXd::Zero(4);
   Eigen::VectorXd global_des_vel_xyzYaw = Eigen::VectorXd::Zero(4);
-  Eigen::VectorXd global_cmd_xyzYaw = Eigen::VectorXd::Zero(4);
-  Eigen::VectorXd global_cmd_vel_xyzYaw = Eigen::VectorXd::Zero(4);
+
+
+  Eigen::VectorXd chat_des_vel_adm = Eigen::VectorXd::Zero(4);
+  Eigen::Vector3d global_xyz_meas;
+  Eigen::Vector3d body_rpy_meas;
+  Eigen::Vector3d global_rpy_meas;
+  Eigen::Vector3d body_omega_meas;
+  Eigen::Matrix3d R_B;
+  Eigen::Matrix3d R_Chat;
+  Eigen::Matrix3d R_C;
+
+  Eigen::Vector3d chat_force_des = Eigen::Vector3d::Zero();
+  Eigen::Vector3d global_force_des = Eigen::Vector3d::Zero();
+  Eigen::Vector3d chat_force_meas = Eigen::Vector3d::Zero();
+  Eigen::Vector3d chat_force_error = Eigen::Vector3d::Zero();
+  Eigen::Vector3d chat_force_error_prev = Eigen::Vector3d::Zero();
+  Eigen::Vector3d chat_force_error_dot = Eigen::Vector3d::Zero();
+  Eigen::Vector3d chat_force_error_dot_raw = Eigen::Vector3d::Zero();
+
+  Eigen::Vector3d Chat_x;
+  Eigen::Vector3d Chat_y;
+  Eigen::Vector3d Chat_z;
+
+
+  Eigen::Vector3d body_force_meas;    
+  Eigen::Vector3d global_force_meas;    
+
+
+  Eigen::Vector3d normal_vector_hat = Eigen::Vector3d::Zero();
+  Eigen::Vector3d normal_vector_hat_normalized = Eigen::Vector3d::Zero();
+  Eigen::Vector3d global_EE_force_meas = Eigen::Vector3d::Zero();
 
 
   double time_cnt;
   double time_real;
   double sampling_time = 0.01;
+
+
+  double global_error_yaw_prev;
+
+
+  FilteredVector force_dot_filter;
+
+  bool contact_flag = false;
+  Eigen::Matrix3d virtual_damper = (Eigen::Vector3d(5, 0, 0)).asDiagonal();
+  Eigen::Matrix3d virtual_spring = (Eigen::Vector3d(0.1, 0, 0)).asDiagonal();
+  
+  Eigen::Vector3d Chat_rpy;
+
+
   rclcpp::TimerBase::SharedPtr timer_;
 };
 

@@ -23,6 +23,7 @@ public:
 private:
   void gzCallback(const gz::msgs::Wrench &msg)
   {
+
     geometry_msgs::msg::Wrench wrench;
 
     wrench.force.x = msg.force().x();
@@ -33,9 +34,18 @@ private:
     wrench.torque.y = msg.torque().y();
     wrench.torque.z = msg.torque().z();
 
-    publisher_->publish(wrench);
+    if (std::abs(wrench.force.x - wrench_prev.force.x) < 0.002 &&
+        std::abs(wrench.force.y - wrench_prev.force.y) < 0.002 &&
+        std::abs(wrench.force.z - wrench_prev.force.z) < 0.002 &&
+        std::abs(wrench.torque.x - wrench_prev.torque.x) < 0.002 &&
+        std::abs(wrench.torque.y - wrench_prev.torque.y) < 0.002 &&
+        std::abs(wrench.torque.z - wrench_prev.torque.z) < 0.002
+        ) publisher_->publish(wrench);
+
+    wrench_prev = wrench;
   }
 
+  geometry_msgs::msg::Wrench wrench_prev;
   rclcpp::Publisher<geometry_msgs::msg::Wrench>::SharedPtr publisher_;
   gz::transport::Node node_;
 };
