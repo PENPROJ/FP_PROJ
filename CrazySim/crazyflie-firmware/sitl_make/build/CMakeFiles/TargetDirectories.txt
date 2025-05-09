@@ -1,5 +1,0 @@
-/home/mrl-seuk/sitl_crazy/CrazySim/crazyflie-firmware/sitl_make/build/CMakeFiles/version_cf.dir
-/home/mrl-seuk/sitl_crazy/CrazySim/crazyflie-firmware/sitl_make/build/CMakeFiles/cf2.dir
-/home/mrl-seuk/sitl_crazy/CrazySim/crazyflie-firmware/sitl_make/build/CMakeFiles/crazysim_gz.dir
-/home/mrl-seuk/sitl_crazy/CrazySim/crazyflie-firmware/sitl_make/build/CMakeFiles/edit_cache.dir
-/home/mrl-seuk/sitl_crazy/CrazySim/crazyflie-firmware/sitl_make/build/CMakeFiles/rebuild_cache.dir

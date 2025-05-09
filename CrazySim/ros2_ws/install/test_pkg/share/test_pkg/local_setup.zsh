@@ -1,1 +1,0 @@
-/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/test_pkg/ament_cmake_environment_hooks/local_setup.zsh

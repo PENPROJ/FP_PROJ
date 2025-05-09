@@ -55,7 +55,7 @@
 
     <!-- EE_SEUK -->
 <link name="link_bar">            
-    <pose relative_to="base_link">0.04 0 0.015 0 1.57 0</pose>
+    <pose relative_to="base_link">0 0 0 0 0 0</pose>
     <inertial>
         <mass>0.0035</mass> <!-- 전체 질량 증가 -->
         <inertia>
@@ -71,10 +71,10 @@
     <!-- 본체 시각적 요소 -->
     <visual name="visual_link_bar">
         <geometry>
-            <cylinder>
-                <radius>0.0025</radius>
-                <length>0.08</length>
-            </cylinder>
+            <mesh>
+                <scale>0.001 0.001 0.001</scale>
+                <uri>model://crazyflie/../../../../meshes/collada_files/meshes/EndEffector.dae</uri>
+            </mesh>
         </geometry>
         <material>
             <ambient>0.0 1.0 1.0 1.0</ambient>
@@ -91,7 +91,7 @@
     </joint>
 
 <link name="link_EE">            
-    <pose relative_to="link_bar">0 0 0.04 0 -1.57 0</pose>
+    <pose relative_to="base_link">0.075 0 0.02 0 0 0</pose>
     <inertial>
         <mass>0.000000001</mass> <!-- 전체 질량 증가 -->
         <inertia>
@@ -131,7 +131,7 @@
 	</collision>
 </link>
 
-    <joint name="joint_EE" type="revolute">
+    <joint name="joint_EE" type="fixed">
         <parent>link_bar</parent>
         <child>link_EE</child>
         <!-- ForceTorque 센서 추가 -->

@@ -26,13 +26,13 @@ private:
 
     geometry_msgs::msg::Wrench wrench;
 
-    wrench.force.x = msg.force().x();
-    wrench.force.y = msg.force().y();
-    wrench.force.z = msg.force().z();
+    wrench.force.x = - msg.force().x();
+    wrench.force.y = - msg.force().y();
+    wrench.force.z = - msg.force().z();
 
-    wrench.torque.x = msg.torque().x();
-    wrench.torque.y = msg.torque().y();
-    wrench.torque.z = msg.torque().z();
+    wrench.torque.x = - msg.torque().x();
+    wrench.torque.y = - msg.torque().y();
+    wrench.torque.z = - msg.torque().z();
 
     if (std::abs(wrench.force.x - wrench_prev.force.x) < 0.002 &&
         std::abs(wrench.force.y - wrench_prev.force.y) < 0.002 &&

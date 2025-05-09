@@ -1,3 +1,0 @@
-[console_scripts]
-crazyflie_multiagent_mpc = crazyflie_mpc.crazyflie_multiagent_mpc:main
-

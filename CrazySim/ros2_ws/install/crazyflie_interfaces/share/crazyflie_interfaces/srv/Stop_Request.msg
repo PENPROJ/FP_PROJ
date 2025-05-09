@@ -1,1 +1,0 @@
-/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/build/crazyflie_interfaces/rosidl_cmake/srv/Stop_Request.msg

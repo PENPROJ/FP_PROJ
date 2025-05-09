@@ -29,7 +29,7 @@ su_fkik() : Node("su_fkik"),
     global_xyz_meas_dot_raw_filter(3, 3, 0.05)    
    {
 
-    EE_offset_d << 0.0775, 0, 0; // MJ. EE_offset_d는 엔드이펙터의 길이 
+    EE_offset_d << 0.075, 0, 0.02; // MJ. EE_offset_d는 엔드이펙터의 길이 
     simulation_Flag = true;  // MJ. True 하면 simulation mode, false 하면 하드웨어 모드로 구상
     inverse_kinematics_Flag = true;
       rclcpp::QoS qos_settings = rclcpp::QoS(rclcpp::KeepLast(10))

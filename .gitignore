@@ -1,0 +1,36 @@
+# Build artifacts
+*.o
+*.pyc
+*.so
+*.a
+*.out
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+Makefile
+cmake_install.cmake
+*.cmake
+
+# colcon build
+build/
+install/
+log/
+*.sh.env
+
+# Python cache
+__pycache__/
+
+# ROS2 specific
+*.pyc
+*.cpp.o
+*.sh.env
+*.log
+*.pyc
+ament_cmake_index/
+ament_cmake_symlink_install/
+prefix_override/
+
+# VSCode or CLion (optional)
+.vscode/
+.idea/
