@@ -50,7 +50,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="pacasdfkage://test_pkg/models/meshes/curvature.dae" scale="0.01 0.02 0.02"/>
+        <mesh filename="package://test_pkg/models/meshes/curvature.dae" scale="0.01 0.02 0.02"/>
       </geometry>
     </visual>
   </link>
@@ -68,7 +68,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="packagasdfe://test_pkg/models/meshes/sphere.dae" scale="0.006 0.006 0.006"/>
+        <mesh filename="package://test_pkg/models/meshes/sphere.dae" scale="0.006 0.006 0.006"/>
       </geometry>
     </visual>
   </link>
