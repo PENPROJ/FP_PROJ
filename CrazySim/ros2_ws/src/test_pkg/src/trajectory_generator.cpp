@@ -32,7 +32,7 @@ trajectory_generator()
       rclcpp::QoS qos_settings = rclcpp::QoS(rclcpp::KeepLast(10))
                                       .reliability(RMW_QOS_POLICY_RELIABILITY_RELIABLE)
                                       .durability(RMW_QOS_POLICY_DURABILITY_VOLATILE);
-    
+
     // TODO: git clone 받고 publisher 생성
 
 
@@ -85,17 +85,17 @@ private:
 
   void contact_check()
   {
-    if (global_force_meas.norm() > 0.001) 
+    if (global_force_meas.norm() > 0.001)
     {
       contact_flag = true;
     }
-    else 
+    else
     {
       contact_flag = false;
     }
 
     if (global_force_meas.norm() > 0.001&&
-        global_EE_xyz_vel_meas.norm() > 0.06) 
+        global_EE_xyz_vel_meas.norm() > 0.06)
     {
       estimation_flag = true;
     }
@@ -109,7 +109,7 @@ private:
   {
 
     // normal_vector_hat << 1, 0, 0; // TODO: 이거 법선벡터 추정기로 바꾸기.
-  
+
       if (estimation_flag)
       {
         double alpha = (global_force_meas.dot(global_EE_xyz_vel_meas)) / (global_EE_xyz_vel_meas.dot(global_EE_xyz_vel_meas));
@@ -122,7 +122,7 @@ private:
 
         normal_vector_hat += rho * delta_normal_vector_hat * sampling_time;
         normal_vector_hat.normalize();
-        
+
       }
 
   }
@@ -198,18 +198,18 @@ private:
 
     if (time_real < 2) global_des_xyzYaw[2] = -0.1;
     else if (time_real > 2 && time_real < 4) chat_des_vel_xyzYaw[2] = 0.3;
-    else if (time_real > 4.5 && time_real < 5) 
+    else if (time_real > 4.5 && time_real < 5)
     {
       RCLCPP_INFO(this->get_logger(), "hovering done. ready to move");
-      chat_des_vel_xyzYaw[2] = 0.0;    
+      chat_des_vel_xyzYaw[2] = 0.0;
     }
     RCLCPP_INFO(this->get_logger(), "z position: %lf", chat_des_vel_xyzYaw[2]);
   }
 
-  
+
   void admittance_control() // 이라 하고 force control 이라 읽는다.
   {
-    chat_force_meas[0] = global_force_meas.dot(normal_vector_hat); //투영한 값. 
+    chat_force_meas[0] = global_force_meas.dot(normal_vector_hat); //투영한 값.
     chat_force_error = chat_force_des - chat_force_meas;
     chat_force_error_dot_raw = (chat_force_error - chat_force_error_prev) / sampling_time;
     chat_force_error_dot = force_dot_filter.apply(chat_force_error_dot_raw);
@@ -229,23 +229,22 @@ private:
         // Position Generation//
         ////////////////////////
         global_des_vel_xyzYaw.head(3) = R_Chat *(chat_des_vel_xyzYaw.head(3) + chat_des_vel_adm.head(3));
-        
+
         ////////////////////////
         //// Yaw Generation //// 우선은 PID 돌림.
         ////////////////////////
-        global_yaw_cmd =  std::atan2(Chat_x[1], Chat_x[0]);
-        double global_error_yaw = global_yaw_cmd - body_rpy_meas[2];
-        double global_error_yaw_dot = (global_error_yaw - global_error_yaw_prev) / sampling_time;
-        global_des_vel_xyzYaw[3] = 0.7 * global_error_yaw + 0.01 * global_error_yaw_dot;
-
+        // global_yaw_cmd =  std::atan2(Chat_x[1], Chat_x[0]);
+        // double global_error_yaw = global_yaw_cmd - body_rpy_meas[2];
+        // double global_error_yaw_dot = (global_error_yaw - global_error_yaw_prev) / sampling_time;
+        // global_des_vel_xyzYaw[3] = 0.7 * global_error_yaw + 0.01 * global_error_yaw_dot;
       }
-    else 
+    else
       {
         global_des_vel_xyzYaw = chat_des_vel_xyzYaw;
       }
 
     global_des_xyzYaw += global_des_vel_xyzYaw * sampling_time;
-    if (contact_flag) global_des_xyzYaw[3] = global_yaw_cmd; 
+    if (contact_flag) global_des_xyzYaw[3] = global_yaw_cmd;
   }
 
   void keyboard_subsciber_callback(const std_msgs::msg::String::SharedPtr msg)
@@ -271,11 +270,11 @@ private:
               chat_des_vel_xyzYaw[1] = 0;
               chat_des_vel_xyzYaw[2] = 0;
               chat_des_vel_xyzYaw[3] = 0;
-            }            
+            }
             else if (input_char == 'p')
             {
               chat_des_vel_xyzYaw[2] = -1;
-            }            
+            }
             else if (input_char == 'j') chat_force_des[0] += 0.003;
             else if (input_char == 'k') chat_force_des[0] -= 0.003;
           }
@@ -298,15 +297,15 @@ private:
       Rz << cos(body_rpy_meas[2]), -sin(body_rpy_meas[2]), 0,
             sin(body_rpy_meas[2]),  cos(body_rpy_meas[2]), 0,
                  0  ,       0  , 1;
-  
+
       Ry << cos(body_rpy_meas[1]), 0, sin(body_rpy_meas[1]),
                    0 , 1,     0,
            -sin(body_rpy_meas[1]), 0, cos(body_rpy_meas[1]);
-  
+
       Rx << 1,      0       ,       0,
             0, cos(body_rpy_meas[0]), -sin(body_rpy_meas[0]),
             0, sin(body_rpy_meas[0]),  cos(body_rpy_meas[0]);
-  
+
       R_B = Rz * Ry * Rx;
     }
 
@@ -324,15 +323,15 @@ private:
       global_force_meas[0] = msg->force.x;
       global_force_meas[1] = msg->force.y;
       global_force_meas[2] = msg->force.z;
-    }    
+    }
 
     rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr global_EE_des_xyzYaw_publisher_;
     rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr Chat_rpy_publisher_;
     rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr global_EE_force_ctrl_publisher_;
     rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr global_normal_hat_publisher_;
 
-    
-    rclcpp::Subscription<std_msgs::msg::String>::SharedPtr keyboard_subscriber_; 
+
+    rclcpp::Subscription<std_msgs::msg::String>::SharedPtr keyboard_subscriber_;
     rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr cf_pose_subscriber_;
     rclcpp::Subscription<geometry_msgs::msg::Wrench>::SharedPtr force_subscriber_;
     rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr global_EE_xyz_vel_subscriber_;
@@ -367,8 +366,8 @@ private:
   Eigen::Vector3d Chat_z;
 
 
-  Eigen::Vector3d body_force_meas;    
-  Eigen::Vector3d global_force_meas;    
+  Eigen::Vector3d body_force_meas;
+  Eigen::Vector3d global_force_meas;
 
 
   Eigen::Vector3d normal_vector_hat = Eigen::Vector3d::Zero();
@@ -395,10 +394,10 @@ private:
 
   bool contact_flag = false;
   bool estimation_flag = false;
-  
+
   Eigen::Matrix3d virtual_damper = (Eigen::Vector3d(5, 0, 0)).asDiagonal();
   Eigen::Matrix3d virtual_spring = (Eigen::Vector3d(0.1, 0, 0)).asDiagonal();
-  
+
   Eigen::Vector3d Chat_rpy;
 
 

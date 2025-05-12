@@ -40,7 +40,7 @@ ament_target_dependencies(wrench_bridge
   geometry_msgs
 )
 
-install(TARGETS 
+install(TARGETS
   wrench_bridge
   DESTINATION lib/${PROJECT_NAME}
 )
@@ -61,13 +61,13 @@ target_link_libraries(wrench_bridge ButterworthFilter
 #SU_RVIZ
 add_executable(su_rviz src/su_rviz.cpp)
 ament_target_dependencies(su_rviz
- rclcpp 
- std_msgs 
- sensor_msgs 
- ros_gz_interfaces 
- geometry_msgs 
- tf2 
- tf2_ros 
+ rclcpp
+ std_msgs
+ sensor_msgs
+ ros_gz_interfaces
+ geometry_msgs
+ tf2
+ tf2_ros
  visualization_msgs
  crazyflie_interfaces)
 
@@ -79,7 +79,7 @@ install(TARGETS
  target_include_directories(su_rviz PUBLIC
  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
  $<INSTALL_INTERFACE:include>
- ${EIGEN3_INCLUDE_DIR}  # Add Eigen include directory 
+ ${EIGEN3_INCLUDE_DIR}  # Add Eigen include directory
 )
 
 target_link_libraries(su_rviz)
@@ -87,13 +87,13 @@ target_link_libraries(su_rviz)
 #SU_FKIK
 add_executable(su_fkik src/su_fkik.cpp src/ButterworthFilter.cpp)
 ament_target_dependencies(su_fkik
- rclcpp 
- std_msgs 
- sensor_msgs 
- ros_gz_interfaces 
- geometry_msgs 
- tf2 
- tf2_ros 
+ rclcpp
+ std_msgs
+ sensor_msgs
+ ros_gz_interfaces
+ geometry_msgs
+ tf2
+ tf2_ros
  visualization_msgs
  crazyflie_interfaces)
 
@@ -105,7 +105,7 @@ install(TARGETS
  target_include_directories(su_fkik PUBLIC
  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
  $<INSTALL_INTERFACE:include>
- ${EIGEN3_INCLUDE_DIR}  # Add Eigen include directory 
+ ${EIGEN3_INCLUDE_DIR}  # Add Eigen include directory
 )
 
 target_link_libraries(su_fkik ButterworthFilter)
@@ -113,13 +113,13 @@ target_link_libraries(su_fkik ButterworthFilter)
 #JTAJECTORY_GENERATOR
 add_executable(trajectory_generator src/trajectory_generator.cpp src/ButterworthFilter.cpp)
 ament_target_dependencies(trajectory_generator
- rclcpp 
- std_msgs 
- sensor_msgs 
- ros_gz_interfaces 
- geometry_msgs 
- tf2 
- tf2_ros 
+ rclcpp
+ std_msgs
+ sensor_msgs
+ ros_gz_interfaces
+ geometry_msgs
+ tf2
+ tf2_ros
  visualization_msgs
  crazyflie_interfaces)
 
@@ -131,7 +131,7 @@ trajectory_generator
  target_include_directories(trajectory_generator PUBLIC
  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
  $<INSTALL_INTERFACE:include>
- ${EIGEN3_INCLUDE_DIR}  # Add Eigen include directory 
+ ${EIGEN3_INCLUDE_DIR}  # Add Eigen include directory
 )
 
 target_link_libraries(trajectory_generator ButterworthFilter)
@@ -140,13 +140,13 @@ target_link_libraries(trajectory_generator ButterworthFilter)
 #keyboard_publisher
 add_executable(keyboard_publisher src/keyboard_publisher.cpp)
 ament_target_dependencies(keyboard_publisher
- rclcpp 
- std_msgs 
- sensor_msgs 
- ros_gz_interfaces 
- geometry_msgs 
- tf2 
- tf2_ros 
+ rclcpp
+ std_msgs
+ sensor_msgs
+ ros_gz_interfaces
+ geometry_msgs
+ tf2
+ tf2_ros
  visualization_msgs
  crazyflie_interfaces)
 
@@ -158,8 +158,8 @@ keyboard_publisher
  target_include_directories(keyboard_publisher PUBLIC
  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
  $<INSTALL_INTERFACE:include>
- ${EIGEN3_INCLUDE_DIR}  # Add Eigen include directory 
- ${CURSES_INCLUDE_DIR} 
+ ${EIGEN3_INCLUDE_DIR}  # Add Eigen include directory
+ ${CURSES_INCLUDE_DIR}
 )
 
 target_link_libraries(keyboard_publisher ${CURSES_LIBRARIES})
@@ -171,9 +171,9 @@ target_link_libraries(keyboard_publisher ${CURSES_LIBRARIES})
 add_executable(topic_csv_logger src/topic_csv_logger.cpp)
 
 ament_target_dependencies(topic_csv_logger
-  rclcpp 
-  std_msgs 
-  geometry_msgs 
+  rclcpp
+  std_msgs
+  geometry_msgs
   turtlesim
 )
 
@@ -231,8 +231,8 @@ topic_csv_pub
 )
 
 
-# CSV_PLAYER
-add_executable(csv_player src/csv_player.cpp)
+# PX4_PLAYER
+add_executable(csv_player src/for_px4/csv_player.cpp)
 ament_target_dependencies(csv_player
   rclcpp
   std_msgs
@@ -249,6 +249,31 @@ target_include_directories(csv_player PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
 )
+
+
+# PX4_RVIZ
+add_executable(px4_rviz src/for_px4/px4_rviz.cpp)
+ament_target_dependencies(px4_rviz
+rclcpp
+std_msgs
+sensor_msgs
+geometry_msgs
+tf2
+tf2_ros
+visualization_msgs
+)
+
+
+install(TARGETS
+  csv_player
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+target_include_directories(csv_player PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+
 
 ###
 

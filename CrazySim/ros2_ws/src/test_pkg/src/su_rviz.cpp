@@ -34,16 +34,16 @@ public:
           "/rviz/cf_1/velocity", 10);
         cf_EE_vel_arrow_publisher_ = this->create_publisher<visualization_msgs::msg::Marker>(
           "/rviz/cf_1_EE/velocity", 10);
-  
+
         cf_Force_arrow_publisher_ = this->create_publisher<visualization_msgs::msg::Marker>(
           "/rviz/cf_1_EE/force", 10);
-  
+
         cf_box_marker_publisher_ = this->create_publisher<visualization_msgs::msg::Marker>(
           "/rviz/box_marker", 10);
 
         normal_vector_hat_publisher_ = this->create_publisher<visualization_msgs::msg::Marker>(
           "/rviz/normal_vector_hat", 10);
-            
+
 
         //SUBSCRIBER GROUP
         cf_pose_subscriber_ = this->create_subscription<std_msgs::msg::Float64MultiArray>(
@@ -53,7 +53,7 @@ public:
         cf_vel_subscriber_ = this->create_subscription<std_msgs::msg::Float64MultiArray>(
           "/pen/xyzrpy_vel", qos_settings,
           std::bind(&su_rviz::cf_velocity_subscriber, this, std::placeholders::_1));
-  
+
         global_EE_xyz_subscriber_ = this->create_subscription<std_msgs::msg::Float64MultiArray>(
           "/pen/EE_xyzrpy", qos_settings,
           std::bind(&su_rviz::global_EE_xyz_callback, this, std::placeholders::_1));
@@ -69,11 +69,11 @@ public:
         Chat_rpy_subscriber_ = this->create_subscription<std_msgs::msg::Float64MultiArray>(
           "/pen/Chat_rpy", qos_settings,
           std::bind(&su_rviz::Chat_rpy_callback, this, std::placeholders::_1));
-  
+
         force_subscriber_ = this->create_subscription<geometry_msgs::msg::Wrench>(
           "/ee/force_wrench", qos_settings,
           std::bind(&su_rviz::force_callback, this, std::placeholders::_1));
-  
+
 
         global_EE_force_subscriber_ = this->create_subscription<std_msgs::msg::Float64MultiArray>(
           "/pen/global_EE_force", qos_settings,
@@ -82,7 +82,7 @@ public:
           global_normal_hat_subscriber_ = this->create_subscription<std_msgs::msg::Float64MultiArray>(
           "/pen/normal_hat", qos_settings,
           std::bind(&su_rviz::global_normal_hat_callback, this, std::placeholders::_1));
-              
+
 
         timer_ = this->create_wall_timer(
           10ms, std::bind(&su_rviz::visual_timer_callback, this));
@@ -126,15 +126,15 @@ public:
       Rz << cos(body_rpy_meas[2]), -sin(body_rpy_meas[2]), 0,
             sin(body_rpy_meas[2]),  cos(body_rpy_meas[2]), 0,
                  0  ,       0  , 1;
-  
+
       Ry << cos(body_rpy_meas[1]), 0, sin(body_rpy_meas[1]),
                    0 , 1,     0,
            -sin(body_rpy_meas[1]), 0, cos(body_rpy_meas[1]);
-  
+
       Rx << 1,      0       ,       0,
             0, cos(body_rpy_meas[0]), -sin(body_rpy_meas[0]),
             0, sin(body_rpy_meas[0]),  cos(body_rpy_meas[0]);
-  
+
       R_B = Rz * Ry * Rx;
     }
 
@@ -189,7 +189,7 @@ public:
       global_force_meas[1] = msg->force.y;
       global_force_meas[2] = msg->force.z;
     }
-    
+
     void global_EE_force_callback(const std_msgs::msg::Float64MultiArray::SharedPtr msg){
       global_force_des[0] = msg->data[0];
       global_force_des[1] = msg->data[1];
@@ -214,30 +214,30 @@ public:
       marker.id = 1;
       marker.type = visualization_msgs::msg::Marker::CUBE;
       marker.action = visualization_msgs::msg::Marker::ADD;
-    
+
       // 중심 위치: 드론 기준 x축으로 1m 앞
       marker.pose.position.x = 1.2;
       marker.pose.position.y = 0;
       marker.pose.position.z = 0.25;  // 높이 중심
-    
+
       // 방향 없음 (회전 없음)
       marker.pose.orientation.x = 0.0;
       marker.pose.orientation.y = 0.0;
       marker.pose.orientation.z = 0.0;
       marker.pose.orientation.w = 1.0;
-    
+
       // 직육면체 크기 설정 (x: 0.1, y: 2.0, z: 0.5)
       marker.scale.x = 0.1;
       marker.scale.y = 2.0;
       marker.scale.z = 0.5;
-    
+
       // 밝은 나무색 (light brown: RGB 205, 133, 63) + 투명도
       marker.color.r = 205.0 / 255.0;
       marker.color.g = 133.0 / 255.0;
       marker.color.b = 63.0 / 255.0;
       marker.color.a = 0.6;
 
-    
+
       cf_box_marker_publisher_->publish(marker);
     }
 
@@ -295,7 +295,7 @@ public:
       marker.action = visualization_msgs::msg::Marker::ADD;
 
       geometry_msgs::msg::Point start_point, end_point;
-      start_point.x = global_xyz_meas[0]; 
+      start_point.x = global_xyz_meas[0];
       start_point.y = global_xyz_meas[1];
       start_point.z = global_xyz_meas[2];
 
@@ -308,25 +308,25 @@ public:
 
       if (global_xyz_vel_meas.norm() < 0.001)
       {
-        marker.scale.x = 0.0; 
-        marker.scale.y = 0.0; 
+        marker.scale.x = 0.0;
+        marker.scale.y = 0.0;
         marker.scale.z = 0.0;
       }
       else
       {
-        marker.scale.x = 0.01; 
-        marker.scale.y = 0.02; 
-        marker.scale.z = 0.02;        
+        marker.scale.x = 0.01;
+        marker.scale.y = 0.02;
+        marker.scale.z = 0.02;
       }
 
-      marker.color.a = 1.0; 
-      marker.color.r = 1.0; 
+      marker.color.a = 1.0;
+      marker.color.r = 1.0;
       marker.color.g = 0.0;
       marker.color.b = 0.0;
 
       cf_vel_arrow_publisher_->publish(marker);
     }
-    
+
     void Normal_vector_estim_arrow_publisher()
     {
       auto marker = visualization_msgs::msg::Marker();
@@ -338,7 +338,7 @@ public:
       marker.action = visualization_msgs::msg::Marker::ADD;
 
       geometry_msgs::msg::Point start_point, end_point;
-      start_point.x = global_EE_xyz_meas[0]; 
+      start_point.x = global_EE_xyz_meas[0];
       start_point.y = global_EE_xyz_meas[1];
       start_point.z = global_EE_xyz_meas[2];
 
@@ -351,18 +351,18 @@ public:
 
       // if (estimation_flag)
       // {
-        marker.scale.x = 0.01; 
-        marker.scale.y = 0.02; 
+        marker.scale.x = 0.01;
+        marker.scale.y = 0.02;
         marker.scale.z = 0.02;
       // }
       // else
       // {
-      //   marker.scale.x = 0.0; 
-      //   marker.scale.y = 0.0; 
+      //   marker.scale.x = 0.0;
+      //   marker.scale.y = 0.0;
       //   marker.scale.z = 0.0;
       // }
 
-      marker.color.a = 1.0; 
+      marker.color.a = 1.0;
       marker.color.r = 1.0;  // 빨강
       marker.color.g = 0.5;  // 초록 (주황색)
       marker.color.b = 0.0;  // 파랑 없음
@@ -372,7 +372,7 @@ public:
 
 
     void cf_EE_vel_FK_arrow_publisher(){
-      
+
       auto marker = visualization_msgs::msg::Marker();
       marker.header.frame_id = "world";
       marker.header.stamp = this->get_clock()->now();
@@ -380,38 +380,38 @@ public:
       marker.id = 0;
       marker.type = visualization_msgs::msg::Marker::ARROW;
       marker.action = visualization_msgs::msg::Marker::ADD;
-  
+
       geometry_msgs::msg::Point start_point, end_point;
-      start_point.x = global_EE_xyz_meas[0]; 
+      start_point.x = global_EE_xyz_meas[0];
       start_point.y = global_EE_xyz_meas[1];
       start_point.z = global_EE_xyz_meas[2];
-  
+
       end_point.x = start_point.x + global_EE_xyz_vel_meas[0];
       end_point.y = start_point.y + global_EE_xyz_vel_meas[1];
       end_point.z = start_point.z + global_EE_xyz_vel_meas[2];
 
       marker.points.push_back(start_point);
       marker.points.push_back(end_point);
-  
-  
+
+
       if(global_EE_xyz_vel_meas.norm() < 0.001)
       {
-        marker.scale.x = 0.0; 
-        marker.scale.y = 0.0; 
-        marker.scale.z = 0.0;        
+        marker.scale.x = 0.0;
+        marker.scale.y = 0.0;
+        marker.scale.z = 0.0;
       }
       else
       {
-        marker.scale.x = 0.01; 
-        marker.scale.y = 0.02; 
-        marker.scale.z = 0.02;        
+        marker.scale.x = 0.01;
+        marker.scale.y = 0.02;
+        marker.scale.z = 0.02;
       }
-  
-      marker.color.a = 1.0; 
-      marker.color.r = 1.0; 
+
+      marker.color.a = 1.0;
+      marker.color.r = 1.0;
       marker.color.g = 0.0;
       marker.color.b = 0.0;
-  
+
       cf_EE_vel_arrow_publisher_->publish(marker);
       }
 
@@ -437,14 +437,14 @@ public:
 
         // TF Broadcast
         tf_broadcaster_->sendTransform(transform_msg);
-    }    
+    }
 
     void Chat_frame_tf_publisher()
     {
       geometry_msgs::msg::TransformStamped transform_msg;
       transform_msg.header.stamp = this->get_clock()->now();
       transform_msg.header.frame_id = "world";  // 부모 프레임
-      transform_msg.child_frame_id = "Chat_frame"; // 
+      transform_msg.child_frame_id = "Chat_frame"; //
 
       if(contact_flag)
       {
@@ -480,7 +480,7 @@ public:
     }
 
     void cf_Force_arrow_publisher(){
-      
+
       auto marker = visualization_msgs::msg::Marker();
       marker.header.frame_id = "world";
       marker.header.stamp = this->get_clock()->now();
@@ -488,29 +488,29 @@ public:
       marker.id = 0;
       marker.type = visualization_msgs::msg::Marker::ARROW;
       marker.action = visualization_msgs::msg::Marker::ADD;
-  
+
       geometry_msgs::msg::Point start_point, end_point;
-      start_point.x = global_EE_xyz_meas[0]; 
+      start_point.x = global_EE_xyz_meas[0];
       start_point.y = global_EE_xyz_meas[1];
       start_point.z = global_EE_xyz_meas[2];
-  
+
       end_point.x = start_point.x + global_force_meas[0] * 10;
       end_point.y = start_point.y + global_force_meas[1] * 10;
       end_point.z = start_point.z + global_force_meas[2] * 10;
-  
+
       marker.points.push_back(start_point);
       marker.points.push_back(end_point);
-  
-  
-      marker.scale.x = 0.01; 
-      marker.scale.y = 0.02; 
+
+
+      marker.scale.x = 0.01;
+      marker.scale.y = 0.02;
       marker.scale.z = 0.02;
-  
-      marker.color.a = 1.0; 
-      marker.color.r = 1.6; 
+
+      marker.color.a = 1.0;
+      marker.color.r = 1.6;
       marker.color.g = 0.8;
       marker.color.b = 1.0;
-  
+
       cf_Force_arrow_publisher_->publish(marker);
       }
 
@@ -520,8 +520,8 @@ public:
     rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr cf_vel_arrow_publisher_;
     rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr cf_EE_vel_arrow_publisher_;
     rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr cf_Force_arrow_publisher_;
-    rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr cf_box_marker_publisher_;          
-    rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr normal_vector_hat_publisher_;          
+    rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr cf_box_marker_publisher_;
+    rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr normal_vector_hat_publisher_;
 
     rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr cf_pose_subscriber_;
     rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr cf_vel_subscriber_;
@@ -541,8 +541,8 @@ public:
     Eigen::Vector3d global_rpy_meas;
     Eigen::Vector3d body_omega_meas;
 
-    Eigen::Vector3d body_force_meas;    
-    Eigen::Vector3d global_force_meas;    
+    Eigen::Vector3d body_force_meas;
+    Eigen::Vector3d global_force_meas;
 
     Eigen::Vector3d global_xyz_vel_meas;
     Eigen::Vector3d body_xyz_vel_meas;
