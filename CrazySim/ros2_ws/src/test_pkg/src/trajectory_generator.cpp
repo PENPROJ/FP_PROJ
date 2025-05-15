@@ -36,7 +36,10 @@ trajectory_generator()
         control_loop_hz = this->declare_parameter<double>("control_loop_hz", 100.0);
         auto control_loop_period = std::chrono::duration<double>(1.0 / control_loop_hz);
         numerical_calc_loop_hz = this->declare_parameter<double>("numerical_calc_loop_hz", 100.0);
-        auto numerical_calc_loop_period = std::chrono::duration<double>(1.0 / numerical_calc_loop_hz);
+        auto numerical_calc_loop_period = std::chronomrl-seuk@mrlseuk:~/sitl_crazy$ git push origin
+HEAD                 origin/HEAD          origin/teaches_day
+master               origin/master        teaches_day
+::duration<double>(1.0 / numerical_calc_loop_hz);
 
         force_lpf_cof = this->declare_parameter<double>("force_lpf_cof", 3);
         normal_vector_estimator_lpf_cof = this->declare_parameter<double>("normal_vector_estimator_lpf_cof", 3);
