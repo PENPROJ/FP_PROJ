@@ -12,5 +12,5 @@ trajectory_generator:
     force_delta_cmd: 0.003
     control_loop_hz: 200.0
     numerical_calc_loop_hz: 50.0
-    force_lpf_cof: 3
-    normal_vector_estimator_lpf_cof: 3
+    force_lpf_cof: 3.0
+    normal_vector_estimator_lpf_cof: 3.0
