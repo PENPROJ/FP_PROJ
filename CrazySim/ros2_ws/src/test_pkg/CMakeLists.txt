@@ -232,8 +232,8 @@ topic_csv_pub
 
 
 # PX4_PLAYER
-add_executable(csv_player src/for_px4/csv_player.cpp)
-ament_target_dependencies(csv_player
+add_executable(px4_player src/for_px4/px4_player.cpp)
+ament_target_dependencies(px4_player
   rclcpp
   std_msgs
   geometry_msgs
@@ -241,11 +241,11 @@ ament_target_dependencies(csv_player
 )
 
 install(TARGETS
-  csv_player
+px4_player
   DESTINATION lib/${PROJECT_NAME}
 )
 
-target_include_directories(csv_player PUBLIC
+target_include_directories(px4_player PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
 )
@@ -265,11 +265,11 @@ visualization_msgs
 
 
 install(TARGETS
-  csv_player
+px4_rviz
   DESTINATION lib/${PROJECT_NAME}
 )
 
-target_include_directories(csv_player PUBLIC
+target_include_directories(px4_rviz PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
 )
@@ -285,6 +285,12 @@ install(DIRECTORY
 
 install(DIRECTORY models/
   DESTINATION share/${PROJECT_NAME}/models
+)
+
+# config 파일 설치
+install(
+  DIRECTORY config
+  DESTINATION share/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)

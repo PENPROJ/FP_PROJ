@@ -21,47 +21,65 @@ class trajectory_generator : public rclcpp::Node
 {
 public:
 trajectory_generator()
-  : Node("su_position_ctrler"),
+  : Node("trajectory_generator"),
   force_dot_filter(1, 3, 0.01), // LPF INIT
   normal_vector_filter(3, 3, 0.01), // LPF INIT
   count_(0)
   {
 
 
-      // QoS 설정
+        // FROM YAML /////////////////////////////////////////////////////
+        std::vector<double> dp_vec = this->declare_parameter<std::vector<double>>("position_delta_cmd", {0.1, 0.1, 0.1, 0.1});
+        position_delta_cmd << dp_vec[0], dp_vec[1], dp_vec[2], dp_vec[3];
+        force_delta_cmd = this->declare_parameter<double>("force_delta_cmd", 0.003);
+
+        control_loop_hz = this->declare_parameter<double>("control_loop_hz", 100.0);
+        auto control_loop_period = std::chrono::duration<double>(1.0 / control_loop_hz);
+        numerical_calc_loop_hz = this->declare_parameter<double>("numerical_calc_loop_hz", 100.0);
+        auto numerical_calc_loop_period = std::chrono::duration<double>(1.0 / numerical_calc_loop_hz);
+
+        force_lpf_cof = this->declare_parameter<double>("force_lpf_cof", 3);
+        normal_vector_estimator_lpf_cof = this->declare_parameter<double>("normal_vector_estimator_lpf_cof", 3);
+
+      // QOS /////////////////////////////////////////////////////
       rclcpp::QoS qos_settings = rclcpp::QoS(rclcpp::KeepLast(10))
                                       .reliability(RMW_QOS_POLICY_RELIABILITY_RELIABLE)
                                       .durability(RMW_QOS_POLICY_DURABILITY_VOLATILE);
 
-    // TODO: git clone 받고 publisher 생성
+
+      // Publisher Group ////////////////////////////////////////////////
+        global_EE_des_xyzYaw_publisher_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("/pen/EE_des_xyzYaw", qos_settings);
+        Chat_rpy_publisher_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("/pen/Chat_rpy", qos_settings);
+        global_EE_force_ctrl_publisher_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("/pen/global_EE_force", qos_settings);
+        global_normal_hat_publisher_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("/pen/normal_hat", qos_settings);
+
+
+      // Subscriber Group ////////////////////////////////////////////////
+        keyboard_subscriber_ = this->create_subscription<std_msgs::msg::String>(
+          "keyboard_input", qos_settings,
+          std::bind(&trajectory_generator::keyboard_subsciber_callback, this, std::placeholders::_1));
+
+        cf_pose_subscriber_ = this->create_subscription<std_msgs::msg::Float64MultiArray>(
+          "/pen/xyzrpy", qos_settings,  // Topic name and QoS depth
+          std::bind(&trajectory_generator::cf_pose_subscriber, this, std::placeholders::_1));
+
+        force_subscriber_ = this->create_subscription<geometry_msgs::msg::Wrench>(
+          "/ee/force_wrench", qos_settings,
+          std::bind(&trajectory_generator::force_callback, this, std::placeholders::_1));
+
+        global_EE_xyz_vel_subscriber_ = this->create_subscription<std_msgs::msg::Float64MultiArray>(
+          "/pen/EE_xyzrpy_vel", qos_settings,
+          std::bind(&trajectory_generator::global_EE_xyz_vel_callback, this, std::placeholders::_1));
+
+
+      // Low Pass Filter Init ////////////////////////////////////////////
+      force_dot_filter = FilteredVector(1, force_lpf_cof, 1 / control_loop_hz), // LPF INIT
+      normal_vector_filter = FilteredVector(3, normal_vector_estimator_lpf_cof, 1 / control_loop_hz), // LPF INIT
 
 
 
-    keyboard_subscriber_ = this->create_subscription<std_msgs::msg::String>(
-      "keyboard_input", qos_settings,
-      std::bind(&trajectory_generator::keyboard_subsciber_callback, this, std::placeholders::_1));
-
-    cf_pose_subscriber_ = this->create_subscription<std_msgs::msg::Float64MultiArray>(
-      "/pen/xyzrpy", qos_settings,  // Topic name and QoS depth
-      std::bind(&trajectory_generator::cf_pose_subscriber, this, std::placeholders::_1));
-
-    force_subscriber_ = this->create_subscription<geometry_msgs::msg::Wrench>(
-      "/ee/force_wrench", qos_settings,
-      std::bind(&trajectory_generator::force_callback, this, std::placeholders::_1));
-
-    global_EE_xyz_vel_subscriber_ = this->create_subscription<std_msgs::msg::Float64MultiArray>(
-      "/pen/EE_xyzrpy_vel", qos_settings,
-      std::bind(&trajectory_generator::global_EE_xyz_vel_callback, this, std::placeholders::_1));
-
-
-    global_EE_des_xyzYaw_publisher_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("/pen/EE_des_xyzYaw", qos_settings);
-    Chat_rpy_publisher_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("/pen/Chat_rpy", qos_settings);
-    global_EE_force_ctrl_publisher_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("/pen/global_EE_force", qos_settings);
-    global_normal_hat_publisher_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("/pen/normal_hat", qos_settings);
-
-      timer_ = this->create_wall_timer(
-        10ms, std::bind(&trajectory_generator::timer_callback, this));
-
+        timer_ = this->create_wall_timer(
+          control_loop_period, std::bind(&trajectory_generator::timer_callback, this));
 
   }
 
@@ -72,8 +90,6 @@ private:
     time_real = time_cnt * sampling_time;
 
     if (time_real < 5) init_hovering(); // 붕 뜨기
-    else if (global_des_xyzYaw[2] < 0.05) global_des_xyzYaw[2] = -1; // sudo_land
-    // external wrench observer를 여기에 하는게 나을지 fkik쪽에 넣는게 나을지 보류
     contact_check();
     normal_vector_estimation();
     Define_normal_frame();
@@ -134,7 +150,7 @@ private:
       Chat_x = normal_vector_hat;
       Chat_y = Chat_x.cross(g);
       if (Chat_y.norm() < 1e-6) {
-        RCLCPP_WARN(this->get_logger(), "[Warning!!!] Gravity vector and normal vector are parallel!");
+//        RCLCPP_WARN(this->get_logger(), "[Warning!!!] Gravity vector and normal vector are parallel!");
         return;
       }
     Chat_x.normalize();
@@ -203,7 +219,6 @@ private:
       RCLCPP_INFO(this->get_logger(), "hovering done. ready to move");
       chat_des_vel_xyzYaw[2] = 0.0;
     }
-    RCLCPP_INFO(this->get_logger(), "z position: %lf", chat_des_vel_xyzYaw[2]);
   }
 
 
@@ -256,14 +271,14 @@ private:
         {
             char input_char = input[0]; // 문자열의 첫 번째 문자만 사용
 
-            if (input_char == 'w') chat_des_vel_xyzYaw[0] += 0.1;
-            else if (input_char == 's') chat_des_vel_xyzYaw[0] -= 0.1;
-            else if (input_char == 'a') chat_des_vel_xyzYaw[1] += 0.1;
-            else if (input_char == 'd') chat_des_vel_xyzYaw[1] -= 0.1;
-            else if (input_char == 'e') chat_des_vel_xyzYaw[2] += 0.1;
-            else if (input_char == 'q') chat_des_vel_xyzYaw[2] -= 0.1;
-            else if (input_char == 'z') chat_des_vel_xyzYaw[3] += 0.1;
-            else if (input_char == 'c') chat_des_vel_xyzYaw[3] -= 0.1;
+            if (input_char == 'w') chat_des_vel_xyzYaw[0] += position_delta_cmd[0];
+            else if (input_char == 's') chat_des_vel_xyzYaw[0] -= position_delta_cmd[0];
+            else if (input_char == 'a') chat_des_vel_xyzYaw[1] += position_delta_cmd[1];
+            else if (input_char == 'd') chat_des_vel_xyzYaw[1] -= position_delta_cmd[1];
+            else if (input_char == 'e') chat_des_vel_xyzYaw[2] += position_delta_cmd[2];
+            else if (input_char == 'q') chat_des_vel_xyzYaw[2] -= position_delta_cmd[2];
+            else if (input_char == 'z') chat_des_vel_xyzYaw[3] += position_delta_cmd[3];
+            else if (input_char == 'c') chat_des_vel_xyzYaw[3] -= position_delta_cmd[3];
             else if (input_char == 'x')
             {
               chat_des_vel_xyzYaw[0] = 0;
@@ -275,8 +290,8 @@ private:
             {
               chat_des_vel_xyzYaw[2] = -1;
             }
-            else if (input_char == 'j') chat_force_des[0] += 0.003;
-            else if (input_char == 'k') chat_force_des[0] -= 0.003;
+            else if (input_char == 'j') chat_force_des[0] += force_delta_cmd;
+            else if (input_char == 'k') chat_force_des[0] -= force_delta_cmd;
           }
 
     }
@@ -378,6 +393,9 @@ private:
   Eigen::Vector3d global_xi = Eigen::Vector3d::Zero();
 
 
+  Eigen::Vector4d position_delta_cmd = Eigen::Vector4d::Zero(4);
+  double force_delta_cmd = 0;
+
   Eigen::Vector3d global_EE_xyz_vel_meas;
 
   double time_cnt;
@@ -402,6 +420,11 @@ private:
 
 
   rclcpp::TimerBase::SharedPtr timer_;
+
+  double control_loop_hz = 0;
+  double numerical_calc_loop_hz = 0;
+  double force_lpf_cof = 0;
+  double normal_vector_estimator_lpf_cof = 0;
 };
 
 int main(int argc, char * argv[])
@@ -411,3 +434,4 @@ int main(int argc, char * argv[])
   rclcpp::shutdown();
   return 0;
 }
+
