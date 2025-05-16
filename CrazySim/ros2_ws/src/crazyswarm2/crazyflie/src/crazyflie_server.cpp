@@ -237,7 +237,7 @@ public:
       auto end1 = std::chrono::system_clock::now();
       std::chrono::duration<double> elapsedSeconds1 = end1 - start;
       RCLCPP_INFO(logger_, "reqParamTOC: %f s (%d params)", elapsedSeconds1.count(), numParams);
-      
+
       // Set parameters as specified in the configuration files, as in the following order
       // 1.) check all/firmware_params
       // 2.) check robot_types/<type_name>/firmware_params
@@ -324,7 +324,7 @@ public:
 
             int freq = log_config_map["custom_topics." + topic_name + ".frequency"].get<int>();
             auto vars = log_config_map["custom_topics." + topic_name + ".vars"].get<std::vector<std::string>>();
-            
+
             RCLCPP_INFO(logger_, "Logging to %s at %d Hz", topic_name.c_str(), freq);
 
             publishers_generic_.emplace_back(node->create_publisher<crazyflie_interfaces::msg::LogDataGeneric>(name + "/" + topic_name, 10));
@@ -435,7 +435,7 @@ public:
 private:
 
   void cmd_full_state_changed(const crazyflie_interfaces::msg::FullState::SharedPtr msg)
-  { 
+  {
     float x = msg->pose.position.x;
     float y = msg->pose.position.y;
     float z = msg->pose.position.z;
@@ -518,7 +518,7 @@ private:
   void takeoff(const std::shared_ptr<Takeoff::Request> request,
                std::shared_ptr<Takeoff::Response> response)
   {
-    RCLCPP_INFO(logger_, "takeoff(height=%f m, duration=%f s, group_mask=%d)", 
+    RCLCPP_INFO(logger_, "takeoff(height=%f m, duration=%f s, group_mask=%d)",
                 request->height,
                 rclcpp::Duration(request->duration).seconds(),
                 request->group_mask);
@@ -543,7 +543,7 @@ private:
                 rclcpp::Duration(request->duration).seconds(),
                 request->relative,
                 request->group_mask);
-    cf_.goTo(request->goal.x, request->goal.y, request->goal.z, request->yaw, 
+    cf_.goTo(request->goal.x, request->goal.y, request->goal.z, request->yaw,
               rclcpp::Duration(request->duration).seconds(),
               request->relative, request->group_mask);
   }
@@ -558,7 +558,7 @@ private:
     std::vector<Crazyflie::poly4d> pieces(request->pieces.size());
     for (size_t i = 0; i < pieces.size(); ++i)
     {
-      if (   request->pieces[i].poly_x.size() != 8 
+      if (   request->pieces[i].poly_x.size() != 8
           || request->pieces[i].poly_y.size() != 8
           || request->pieces[i].poly_z.size() != 8
           || request->pieces[i].poly_yaw.size() != 8)
@@ -624,7 +624,7 @@ private:
 
   void on_logging_scan(uint32_t time_in_ms, const logScan* data) {
     if (publisher_scan_) {
-      
+
       const float max_range = 3.49;
       float front_range = data->front / 1000.0f;
       if (front_range > max_range) front_range = std::numeric_limits<float>::infinity();
@@ -911,7 +911,7 @@ private:
   }
 
   void cmd_full_state_changed(const crazyflie_interfaces::msg::FullState::SharedPtr msg)
-  { 
+  {
     float x = msg->pose.position.x;
     float y = msg->pose.position.y;
     float z = msg->pose.position.z;
@@ -959,10 +959,10 @@ private:
       if (iter != name_to_id_.end()) {
         uint8_t id = iter->second;
         if (isnan(pose.pose.orientation.w)) {
-          data_position.push_back({id, 
+          data_position.push_back({id,
             (float)pose.pose.position.x, (float)pose.pose.position.y, (float)pose.pose.position.z});
         } else {
-          data_pose.push_back({id, 
+          data_pose.push_back({id,
             (float)pose.pose.position.x, (float)pose.pose.position.y, (float)pose.pose.position.z,
             (float)pose.pose.orientation.x, (float)pose.pose.orientation.y, (float)pose.pose.orientation.z, (float)pose.pose.orientation.w});
         }
@@ -1158,7 +1158,7 @@ int main(int argc, char *argv[])
   {
     node->spin_some();
     rclcpp::spin_some(node);
-    
+
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
   }
   rclcpp::shutdown();

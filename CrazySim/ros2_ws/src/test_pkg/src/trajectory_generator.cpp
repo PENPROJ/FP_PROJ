@@ -114,7 +114,7 @@ private:
       contact_flag = false;
     }
 
-    if (global_force_meas.norm() > 0.001&&
+    if (global_force_meas.norm() > 0.001 &&
         global_EE_xyz_vel_meas.norm() > 0.06)
     {
       estimation_flag = true;
@@ -127,8 +127,6 @@ private:
 
   void normal_vector_estimation()
   {
-
-    // normal_vector_hat << 1, 0, 0; // TODO: 이거 법선벡터 추정기로 바꾸기.
 
       if (estimation_flag)
       {
@@ -257,7 +255,6 @@ private:
         double global_error_yaw = global_yaw_cmd - body_rpy_meas[2];
         double global_error_yaw_dot = (global_error_yaw - global_error_yaw_prev) * control_loop_hz;
         global_des_vel_xyzYaw[3] = 0.7 * global_error_yaw + 0.01 * global_error_yaw_dot;
-
       }
     else
       {

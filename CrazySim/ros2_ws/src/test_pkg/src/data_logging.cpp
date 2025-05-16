@@ -1,120 +1,152 @@
-#include <rclcpp/rclcpp.hpp>
-#include <rosbag2_cpp/writer.hpp>
-#include <rosbag2_storage/storage_options.hpp>
-#include <rosbag2_cpp/converter_options.hpp>
-#include <rclcpp/serialization.hpp>
-#include <rclcpp/serialized_message.hpp>
-
-#include <geometry_msgs/msg/pose_stamped.hpp>
-#include <geometry_msgs/msg/twist.hpp>
-#include <std_msgs/msg/float64_multi_array.hpp>
-#include <turtlesim/msg/pose.hpp>
-#include <crazyflie_interfaces/msg/log_data_generic.hpp>
-
-#include <rosidl_runtime_cpp/traits.hpp>
-#include <unordered_set>
 #include <chrono>
+#include <functional>
+#include <memory>
+#include <vector>
+#include <fstream>
 #include <iomanip>
+#include <ctime>
 #include <sstream>
 
-// 현재 시간 문자열 생성 (예: "20250408_221045")
-std::string get_time_string() {
-  auto now = std::chrono::system_clock::now();
-  std::time_t t = std::chrono::system_clock::to_time_t(now);
-  std::tm tm = *std::localtime(&t);
-  std::ostringstream oss;
-  oss << std::put_time(&tm, "%Y%m%d_%H%M%S");
-  return oss.str();
-}
+#include "rclcpp/rclcpp.hpp"
+#include "geometry_msgs/msg/pose_stamped.hpp"
+#include "geometry_msgs/msg/wrench.hpp"
+#include "std_msgs/msg/float64_multi_array.hpp"
+#include <eigen3/Eigen/Core>
+#include <eigen3/Eigen/Dense>
 
-class RosbagRecorderNode : public rclcpp::Node {
+using namespace std::chrono_literals;
+
+class DataLoggerNode : public rclcpp::Node
+{
 public:
-  RosbagRecorderNode() : Node("rosbag_cpp_recorder") {
-    RCLCPP_INFO(this->get_logger(), "Starting rosbag recorder...");
+  DataLoggerNode() : Node("data_logging")
+  {
+    rclcpp::QoS qos_settings = rclcpp::QoS(rclcpp::KeepLast(10))
+                                    .reliability(RMW_QOS_POLICY_RELIABILITY_RELIABLE)
+                                    .durability(RMW_QOS_POLICY_DURABILITY_VOLATILE);
 
-    // 시간 기반 저장 경로
-    std::string time_str = get_time_string();
-    storage_options_.uri = "/home/mrl-seuk/sitl_crazy/CrazySim/ros2_ws/src/test_pkg/bag/my_bag_" + time_str;
-    storage_options_.storage_id = "sqlite3";
-    converter_options_.input_serialization_format = "cdr";
-    converter_options_.output_serialization_format = "cdr";
+    cf_pose_subscriber_ = this->create_subscription<geometry_msgs::msg::PoseStamped>(
+      "/cf2/pose", qos_settings,
+      std::bind(&DataLoggerNode::cf_pose_callback, this, std::placeholders::_1));
 
-    writer_.open(storage_options_, converter_options_);
+    global_xyz_cmd_subscriber_ = this->create_subscription<std_msgs::msg::Float64MultiArray>(
+      "/pen/EE_des_xyzYaw", qos_settings,
+      std::bind(&DataLoggerNode::global_xyz_cmd_callback, this, std::placeholders::_1));
 
-    auto qos = rclcpp::QoS(rclcpp::KeepLast(1)).best_effort().durability_volatile();
-    
-    
-    // 각 토픽 구독 및 기록
-    pose_sub_ = this->create_subscription<geometry_msgs::msg::PoseStamped>(
-      "/cf2/pose", qos,
-      [this](const geometry_msgs::msg::PoseStamped::SharedPtr msg) {
-        this->write_to_bag("/cf2/pose", *msg);
-      });
+    force_subscriber_ = this->create_subscription<geometry_msgs::msg::Wrench>(
+      "/ee/force_wrench", qos_settings,
+      std::bind(&DataLoggerNode::force_callback, this, std::placeholders::_1));
 
-    vel_sub_ = this->create_subscription<crazyflie_interfaces::msg::LogDataGeneric>(
-      "/cf2/velocity", qos,
-      [this](const crazyflie_interfaces::msg::LogDataGeneric::SharedPtr msg) {
-        this->write_to_bag("/cf2/velocity", *msg);
-      });
+    logging_data_publisher_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("/data_logging", qos_settings);
 
-    ee_cmd_sub_ = this->create_subscription<std_msgs::msg::Float64MultiArray>(
-      "/pen/EE_cmd_xyzYaw", qos,
-      [this](const std_msgs::msg::Float64MultiArray::SharedPtr msg) {
-        this->write_to_bag("/pen/EE_cmd_xyzYaw", *msg);
-      });
+    data_logging.resize(17);  // pose(7) + EE_des_xyzYaw(4) + force(6)
 
-    turtle_pose_sub_ = this->create_subscription<turtlesim::msg::Pose>(
-      "/turtle1/pose", qos,
-      [this](const turtlesim::msg::Pose::SharedPtr msg) {
-        this->write_to_bag("/turtle1/pose", *msg);
-      });
+    start_time_ = this->now();
+    create_csv_file();
 
-    turtle_cmd_vel_sub_ = this->create_subscription<geometry_msgs::msg::Twist>(
-      "/turtle1/cmd_vel", qos,
-      [this](const geometry_msgs::msg::Twist::SharedPtr msg) {
-        this->write_to_bag("/turtle1/cmd_vel", *msg);
-      });
+    timer_ = this->create_wall_timer(5ms, std::bind(&DataLoggerNode::publish_callback, this));
+  }
+
+  ~DataLoggerNode()
+  {
+    if (csv_file_.is_open()) {
+      csv_file_.close();
+      RCLCPP_INFO(this->get_logger(), "CSV 저장 종료");
+    }
   }
 
 private:
-  template <typename T>
-  void write_to_bag(const std::string &topic_name, const T &msg) {
-    // 토픽을 처음 쓰는 경우 등록
-    if (created_topics_.find(topic_name) == created_topics_.end()) {
-      writer_.create_topic({
-        .name = topic_name,
-        .type = rosidl_generator_traits::name<T>(),
-        .serialization_format = "cdr",
-        .offered_qos_profiles = ""
-      });
-      created_topics_.insert(topic_name);
-    }
-
-    // 메시지 직렬화 및 기록
-    rclcpp::SerializedMessage serialized_msg;
-    rclcpp::Serialization<T> serializer;
-    serializer.serialize_message(&msg, &serialized_msg);
-
-    writer_.write(serialized_msg, topic_name, "cdr", this->now());
+  void cf_pose_callback(const geometry_msgs::msg::PoseStamped::SharedPtr msg)
+  {
+    data_logging(0) = msg->pose.position.x;
+    data_logging(1) = msg->pose.position.y;
+    data_logging(2) = msg->pose.position.z;
+    data_logging(3) = msg->pose.orientation.x;
+    data_logging(4) = msg->pose.orientation.y;
+    data_logging(5) = msg->pose.orientation.z;
+    data_logging(6) = msg->pose.orientation.w;
   }
 
-  rosbag2_cpp::Writer writer_;
-  rosbag2_storage::StorageOptions storage_options_;
-  rosbag2_cpp::ConverterOptions converter_options_;
-  std::unordered_set<std::string> created_topics_;
+  void global_xyz_cmd_callback(const std_msgs::msg::Float64MultiArray::SharedPtr msg)
+  {
+    data_logging(7) = msg->data[0];
+    data_logging(8) = msg->data[1];
+    data_logging(9) = msg->data[2];
+    data_logging(10) = msg->data[3];
+  }
 
-  rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr pose_sub_;
-  rclcpp::Subscription<crazyflie_interfaces::msg::LogDataGeneric>::SharedPtr vel_sub_;
-  rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr ee_cmd_sub_;
-  rclcpp::Subscription<turtlesim::msg::Pose>::SharedPtr turtle_pose_sub_;
-  rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr turtle_cmd_vel_sub_;
+  void force_callback(const geometry_msgs::msg::Wrench::SharedPtr msg)
+  {
+    data_logging(11) = msg->force.x;
+    data_logging(12) = msg->force.y;
+    data_logging(13) = msg->force.z;
+    data_logging(14) = msg->torque.x;
+    data_logging(15) = msg->torque.y;
+    data_logging(16) = msg->torque.z;
+  }
+
+  void publish_callback()
+  {
+    std_msgs::msg::Float64MultiArray msg;
+    for (int i = 0; i < data_logging.size(); ++i) {
+      msg.data.push_back(data_logging(i));
+    }
+    logging_data_publisher_->publish(msg);
+
+    double t = (this->now() - start_time_).seconds();
+
+    if (csv_file_.is_open()) {
+      csv_file_ << std::fixed << std::setprecision(6) << t;
+      for (int i = 0; i < data_logging.size(); ++i) {
+        csv_file_ << "," << data_logging(i);
+      }
+      csv_file_ << "\n";
+    }
+  }
+
+  void create_csv_file()
+  {
+    std::string dir = std::string(std::getenv("HOME")) + "/sitl_crazy/CrazySim/ros2_ws/src/test_pkg/bag/";
+    std::string filename = "log_" + get_current_time_string() + ".csv";
+    std::string full_path = dir + filename;
+
+    csv_file_.open(full_path);
+
+    if (!csv_file_.is_open()) {
+      RCLCPP_ERROR(this->get_logger(), "CSV 파일 생성 실패: %s", full_path.c_str());
+    } else {
+      RCLCPP_INFO(this->get_logger(), "CSV 저장 시작: %s", full_path.c_str());
+      csv_file_ << "time,x,y,z,qx,qy,qz,qw,cmd_x,cmd_y,cmd_z,cmd_yaw,"
+                   "force_x,force_y,force_z,torque_x,torque_y,torque_z\n";
+    }
+  }
+
+  std::string get_current_time_string()
+  {
+    auto now = std::chrono::system_clock::now();
+    std::time_t now_t = std::chrono::system_clock::to_time_t(now);
+    std::tm *tm_ptr = std::localtime(&now_t);
+
+    std::ostringstream oss;
+    oss << std::put_time(tm_ptr, "%m%d_%H%M%S");
+    return oss.str();
+  }
+
+  rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr cf_pose_subscriber_;
+  rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr global_xyz_cmd_subscriber_;
+  rclcpp::Subscription<geometry_msgs::msg::Wrench>::SharedPtr force_subscriber_;
+  rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr logging_data_publisher_;
+  rclcpp::TimerBase::SharedPtr timer_;
+
+  Eigen::VectorXd data_logging;
+  rclcpp::Time start_time_;
+  std::ofstream csv_file_;
 };
 
-int main(int argc, char **argv)
+int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
-  auto node = std::make_shared<RosbagRecorderNode>();
-  rclcpp::spin(node);
+  rclcpp::spin(std::make_shared<DataLoggerNode>());
   rclcpp::shutdown();
   return 0;
 }

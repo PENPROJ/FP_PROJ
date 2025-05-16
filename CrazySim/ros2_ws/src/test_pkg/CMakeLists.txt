@@ -38,6 +38,9 @@ add_executable(wrench_bridge src/wrench_bridge.cpp src/ButterworthFilter.cpp)
 ament_target_dependencies(wrench_bridge
   rclcpp
   geometry_msgs
+  crazyflie_interfaces
+  tf2
+  tf2_ros
 )
 
 install(TARGETS
@@ -48,6 +51,8 @@ install(TARGETS
 target_include_directories(wrench_bridge PUBLIC
   ${gz-msgs11_INCLUDE_DIRS}
   ${gz-transport12_INCLUDE_DIRS}
+  ${EIGEN3_INCLUDE_DIR}  # Add Eigen include directory
+  $<INSTALL_INTERFACE:include>
 )
 
 target_link_libraries(wrench_bridge ButterworthFilter
@@ -166,11 +171,11 @@ target_link_libraries(keyboard_publisher ${CURSES_LIBRARIES})
 
 
 
-# MULTI_TOPIC_COMBINER
+# DATA_DECRYPTOR
 
-add_executable(topic_csv_logger src/topic_csv_logger.cpp)
+add_executable(data_decryptor src/data_decryptor.cpp)
 
-ament_target_dependencies(topic_csv_logger
+ament_target_dependencies(data_decryptor
   rclcpp
   std_msgs
   geometry_msgs
@@ -178,11 +183,11 @@ ament_target_dependencies(topic_csv_logger
 )
 
 install(TARGETS
-  topic_csv_logger
+  data_decryptor
   DESTINATION lib/${PROJECT_NAME}
 )
 
-target_include_directories(topic_csv_logger PUBLIC
+target_include_directories(data_decryptor PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
 )
@@ -214,21 +219,12 @@ install(TARGETS
   DESTINATION lib/${PROJECT_NAME}
 )
 
-
-# topic_csv_pub
-add_executable(topic_csv_pub src/topic_csv_pub.cpp)
-
-ament_target_dependencies(topic_csv_pub
-  rclcpp
-  std_msgs
-  turtlesim
-  geometry_msgs
+target_include_directories(data_logging PUBLIC
+$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+$<INSTALL_INTERFACE:include>
+${EIGEN3_INCLUDE_DIR}
 )
 
-install(TARGETS
-topic_csv_pub
-  DESTINATION lib/${PROJECT_NAME}
-)
 
 
 # PX4_PLAYER
