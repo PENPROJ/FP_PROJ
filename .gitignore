@@ -27,6 +27,8 @@ __pycache__/
 *.sh.env
 *.log
 *.pyc
+CrazySim/ros2_ws/src/test_pkg/bag/*.csv
+
 ament_cmake_index/
 ament_cmake_symlink_install/
 prefix_override/

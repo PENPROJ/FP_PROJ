@@ -121,7 +121,7 @@ def generate_launch_description():
             package='crazyflie_examples',
             executable='goto_subscriber',
             output='screen',
-        ),                
+        ),
 #        Node(
 #            package='rviz2',
 #            namespace='',

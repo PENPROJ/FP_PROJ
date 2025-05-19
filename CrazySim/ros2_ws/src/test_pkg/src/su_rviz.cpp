@@ -267,7 +267,7 @@ public:
         geometry_msgs::msg::TransformStamped transformStamped;
         transformStamped.header.stamp = this->now();
         transformStamped.header.frame_id = "world";
-        transformStamped.child_frame_id = "Body_frame";
+        transformStamped.child_frame_id = "cf2";
 
         transformStamped.transform.translation.x = global_xyz_meas[0];
         transformStamped.transform.translation.y = global_xyz_meas[1];
@@ -349,18 +349,18 @@ public:
       marker.points.push_back(start_point);
       marker.points.push_back(end_point);
 
-      // if (estimation_flag)
-      // {
+      if (estimation_flag)
+      {
         marker.scale.x = 0.01;
         marker.scale.y = 0.02;
         marker.scale.z = 0.02;
-      // }
-      // else
-      // {
-      //   marker.scale.x = 0.0;
-      //   marker.scale.y = 0.0;
-      //   marker.scale.z = 0.0;
-      // }
+      }
+      else
+      {
+        marker.scale.x = 0.0;
+        marker.scale.y = 0.0;
+        marker.scale.z = 0.0;
+      }
 
       marker.color.a = 1.0;
       marker.color.r = 1.0;  // 빨강
@@ -476,7 +476,6 @@ public:
       }
       // TF Broadcast
       tf_broadcaster_->sendTransform(transform_msg);
-
     }
 
     void cf_Force_arrow_publisher(){
@@ -501,10 +500,18 @@ public:
       marker.points.push_back(start_point);
       marker.points.push_back(end_point);
 
-
-      marker.scale.x = 0.01;
-      marker.scale.y = 0.02;
-      marker.scale.z = 0.02;
+      if(contact_flag)
+      {
+        marker.scale.x = 0.01;
+        marker.scale.y = 0.02;
+        marker.scale.z = 0.02;
+      }
+      else
+      {
+        marker.scale.x = 0.00;
+        marker.scale.y = 0.00;
+        marker.scale.z = 0.00;
+      }
 
       marker.color.a = 1.0;
       marker.color.r = 1.6;

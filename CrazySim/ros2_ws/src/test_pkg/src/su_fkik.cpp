@@ -15,7 +15,7 @@
 #include "test_pkg/FilteredVector.hpp"
 #include <std_msgs/msg/float64_multi_array.hpp>
 #include "crazyflie_interfaces/msg/position.hpp"
-
+#include <deque>
 
 using namespace std::chrono_literals;
 
@@ -177,7 +177,7 @@ su_fkik() : Node("su_fkik"),
         global_xyzYaw_cmd_msg.y = global_xyz_cmd[1];
         global_xyzYaw_cmd_msg.z = global_xyz_cmd[2];
         global_xyzYaw_cmd_msg.yaw = global_EE_yaw_cmd * 180 / M_PI;
-        cf_global_xyzYaw_publisher_->publish(global_xyzYaw_cmd_msg);
+       cf_global_xyzYaw_publisher_->publish(global_xyzYaw_cmd_msg);
 
 
         std_msgs::msg::Float64MultiArray test_msg;
@@ -357,6 +357,13 @@ su_fkik() : Node("su_fkik"),
     bool inverse_kinematics_Flag;
     double control_loop_hz = 0;
     double numerical_calc_loop_hz = 0;
+
+    struct TimeStampedVector {
+      rclcpp::Time stamp;
+      Eigen::Vector3d data;
+    };
+
+    std::deque<TimeStampedVector> pose_buffer;
 };
 
 int main(int argc, char * argv[]) {
